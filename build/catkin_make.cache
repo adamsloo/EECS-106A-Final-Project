@@ -1,0 +1,2 @@
+dance_moves/src/ik:dance_moves/src/move_arm:dance_moves/src/planning
+-DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/install -G Unix Makefiles
