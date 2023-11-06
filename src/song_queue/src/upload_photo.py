@@ -28,31 +28,29 @@ import intera_external_devices
 from intera_interface import CHECK_VERSION
 
 from cv_bridge import CvBridge
+import cv_bridge
+import cv2
+import pytesseract
+import numpy as np
+from std_msgs.msg import String
 
+
+# def image_callback(msg):
+#     global recent_image
+#     recent_image = msg
 current_ids = {}
-recent_image = None
-bridge = CvBridge()
-
-#upload the photo to the server, determine text
-def upload_photo(id):
-    if recent_image != None:
-        cv_image = bridge.imgmsg_to_cv2(recent_image, desired_encoding="passthrough")
-        print(cv_image)
-    
-def image_callback(msg):
-    global recent_image
-    recent_image = msg
 
 def marker_callback(msg):
     # Need to add a check if marker was removed from frame
+    # Add logic to "move" the markers and add them to the queue in a certain order
     if msg.id not in current_ids.keys():
         current_ids[msg.id] = None
         print(msg.id)
-        upload_photo(id)
-
+        pub.publish(str(msg.id))
 
 if __name__ == '__main__':
     rospy.init_node("song_tracker")
+    pub = rospy.Publisher('song_queue', String, queue_size=10)
     rospy.Subscriber("/visualization_marker", Marker, marker_callback)
-    rospy.Subscriber("/io/internal_camera/right_hand_camera/image_rect", Image, image_callback)
+    # rospy.Subscriber("/io/internal_camera/right_hand_camera/image_rect", Image, image_callback)
     rospy.spin()
