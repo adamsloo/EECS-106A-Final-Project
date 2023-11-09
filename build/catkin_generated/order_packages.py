@@ -1,5 +1,5 @@
 # generated from catkin/cmake/template/order_packages.context.py.in
-source_root_dir = '/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src'
+source_root_dir = '/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src'
 whitelisted_packages = ''.split(';') if '' != '' else []
 blacklisted_packages = ''.split(';') if '' != '' else []
-underlay_workspaces = '/opt/ros/eecsbot_ws/devel;/opt/ros/noetic'.split(';') if '/opt/ros/eecsbot_ws/devel;/opt/ros/noetic' != '' else []
+underlay_workspaces = '/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel;/opt/ros/eecsbot_ws/devel;/opt/ros/noetic'.split(';') if '/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel;/opt/ros/eecsbot_ws/devel;/opt/ros/noetic' != '' else []

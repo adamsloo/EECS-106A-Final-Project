@@ -1,8 +1,8 @@
-# Install script for directory: /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src/dance_moves/src/move_arm
+# Install script for directory: /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/dance_moves/src/move_arm
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/install")
+  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_arm.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_arm.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/move_arm/cmake" TYPE FILE FILES
-    "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_armConfig.cmake"
-    "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_armConfig-version.cmake"
+    "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_armConfig.cmake"
+    "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/move_arm/catkin_generated/installspace/move_armConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/move_arm" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src/dance_moves/src/move_arm/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/move_arm" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/dance_moves/src/move_arm/package.xml")
 endif()
 

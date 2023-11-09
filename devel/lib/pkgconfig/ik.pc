@@ -1,4 +1,4 @@
-prefix=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/devel
+prefix=/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel
 
 Name: ik
 Description: Description of ik

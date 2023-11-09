@@ -1,4 +1,4 @@
-prefix=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/install
+prefix=/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install
 
 Name: move_arm
 Description: Description of move_arm

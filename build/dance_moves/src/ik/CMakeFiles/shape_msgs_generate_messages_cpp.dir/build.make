@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build
 
 # Utility rule file for shape_msgs_generate_messages_cpp.
 
@@ -63,10 +63,10 @@ dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build: shape_
 .PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
 
 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/ik && $(CMAKE_COMMAND) -P CMakeFiles/shape_msgs_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/ik && $(CMAKE_COMMAND) -P CMakeFiles/shape_msgs_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/clean
 
 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src/dance_moves/src/ik /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/ik /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/dance_moves/src/ik /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/ik /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/depend
 

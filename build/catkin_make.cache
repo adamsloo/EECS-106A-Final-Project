@@ -1,2 +1,2 @@
-dance_moves/src/ik:dance_moves/src/move_arm:dance_moves/src/planning
--DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/install -G Unix Makefiles
+ar_track_alvar/ar_track_alvar:ar_track_alvar/ar_track_alvar_msgs:baxter_pykdl:dance_moves/src/ik:dance_moves/src/move_arm:dance_moves/src/planning:find_markers:sawyer_full_stack
+-DCATKIN_DEVEL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel -DCMAKE_INSTALL_PREFIX=/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install -G Unix Makefiles

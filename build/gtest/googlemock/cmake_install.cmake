@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/install")
+  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/gtest/googletest/cmake_install.cmake")
+  include("/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/gtest/googletest/cmake_install.cmake")
 
 endif()
 

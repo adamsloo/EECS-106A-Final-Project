@@ -48,25 +48,25 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
 
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
 
 # Special rule for the target install
 install: preinstall
@@ -79,6 +79,28 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -101,50 +123,28 @@ test/fast: test
 
 .PHONY : test/fast
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
 
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/CMakeFiles /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/dance_moves/src/ik/CMakeFiles/progress.marks
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build/CMakeFiles 0
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/CMakeFiles /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/ik/CMakeFiles/progress.marks
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/clean
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,37 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/preinstall
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/preinstall
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-octomap_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
-
-.PHONY : octomap_msgs_generate_messages_py
-
-# fast build rule for target.
-octomap_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/build
-.PHONY : octomap_msgs_generate_messages_py/fast
-
-# Convenience name for target.
 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -194,12 +179,12 @@ octomap_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/octomap_msg
 
 # fast build rule for target.
 octomap_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_nodejs.dir/build
 .PHONY : octomap_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -209,12 +194,27 @@ octomap_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/octomap_msgs_
 
 # fast build rule for target.
 octomap_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_lisp.dir/build
 .PHONY : octomap_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
+dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+octomap_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/rule
+
+.PHONY : octomap_msgs_generate_messages_py
+
+# fast build rule for target.
+octomap_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_py.dir/build
+.PHONY : octomap_msgs_generate_messages_py/fast
+
+# Convenience name for target.
 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -224,12 +224,12 @@ octomap_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/octomap_msgs_g
 
 # fast build rule for target.
 octomap_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_cpp.dir/build
 .PHONY : octomap_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -239,132 +239,12 @@ object_recognition_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/
 
 # fast build rule for target.
 object_recognition_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_nodejs.dir/build
 .PHONY : object_recognition_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_lisp
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_eus
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build
-.PHONY : object_recognition_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
-
-.PHONY : shape_msgs_generate_messages_py
-
-# fast build rule for target.
-shape_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/build
-.PHONY : shape_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
-
-.PHONY : shape_msgs_generate_messages_eus
-
-# fast build rule for target.
-shape_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/build
-.PHONY : shape_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : shape_msgs_generate_messages_cpp
-
-# fast build rule for target.
-shape_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
-.PHONY : shape_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-moveit_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
-
-.PHONY : moveit_msgs_generate_messages_py
-
-# fast build rule for target.
-moveit_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/build
-.PHONY : moveit_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-moveit_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : moveit_msgs_generate_messages_lisp
-
-# fast build rule for target.
-moveit_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build
-.PHONY : moveit_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-moveit_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
-
-.PHONY : moveit_msgs_generate_messages_eus
-
-# fast build rule for target.
-moveit_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/build
-.PHONY : moveit_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -374,777 +254,42 @@ moveit_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/moveit_msgs_gen
 
 # fast build rule for target.
 moveit_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_cpp.dir/build
 .PHONY : moveit_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
+dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-intera_motion_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/rule
+moveit_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/rule
 
-.PHONY : intera_motion_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build
-.PHONY : intera_motion_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_lisp
+.PHONY : moveit_msgs_generate_messages_eus
 
 # fast build rule for target.
-intera_motion_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_lisp.dir/build
-.PHONY : intera_motion_msgs_generate_messages_lisp/fast
+moveit_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_eus.dir/build
+.PHONY : moveit_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-roscpp_generate_messages_eus: dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+moveit_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/rule
 
-.PHONY : roscpp_generate_messages_eus
-
-# fast build rule for target.
-roscpp_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_eus.dir/build
-.PHONY : roscpp_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_py
+.PHONY : moveit_msgs_generate_messages_lisp
 
 # fast build rule for target.
-actionlib_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_py.dir/build
-.PHONY : actionlib_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/rule
-
-.PHONY : actionlib_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_cpp.dir/build
-.PHONY : actionlib_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_py
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/build
-.PHONY : object_recognition_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
-.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_lisp
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_lisp.dir/build
-.PHONY : intera_core_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_py: dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/rule
-
-.PHONY : actionlib_generate_messages_py
-
-# fast build rule for target.
-actionlib_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_py.dir/build
-.PHONY : actionlib_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-trajectory_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : trajectory_msgs_generate_messages_cpp
-
-# fast build rule for target.
-trajectory_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_cpp.dir/build
-.PHONY : trajectory_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_nodejs.dir/build
-.PHONY : actionlib_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/rule
-
-.PHONY : control_msgs_generate_messages_eus
-
-# fast build rule for target.
-control_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_eus.dir/build
-.PHONY : control_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-trajectory_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : trajectory_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-trajectory_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_nodejs.dir/build
-.PHONY : trajectory_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_cpp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_cpp.dir/build
-.PHONY : actionlib_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_nodejs.dir/build
-.PHONY : intera_core_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_eus
-
-# fast build rule for target.
-geometry_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_eus.dir/build
-.PHONY : geometry_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : std_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-std_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
-.PHONY : std_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
-
-.PHONY : roscpp_generate_messages_cpp
-
-# fast build rule for target.
-roscpp_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_cpp.dir/build
-.PHONY : roscpp_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_cpp
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_cpp.dir/build
-.PHONY : intera_motion_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-sensor_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_nodejs.dir/build
-.PHONY : sensor_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_py
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_py.dir/build
-.PHONY : intera_motion_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_py
-
-# fast build rule for target.
-geometry_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_py.dir/build
-.PHONY : geometry_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_py
-
-# fast build rule for target.
-sensor_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_py.dir/build
-.PHONY : sensor_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
-
-.PHONY : roscpp_generate_messages_lisp
-
-# fast build rule for target.
-roscpp_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_lisp.dir/build
-.PHONY : roscpp_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_lisp.dir/build
-.PHONY : actionlib_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_lisp
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
-.PHONY : rosgraph_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_cpp
-
-# fast build rule for target.
-geometry_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_cpp.dir/build
-.PHONY : geometry_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/rule
-
-.PHONY : control_msgs_generate_messages_py
-
-# fast build rule for target.
-control_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_py.dir/build
-.PHONY : control_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-octomap_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
-
-.PHONY : octomap_msgs_generate_messages_eus
-
-# fast build rule for target.
-octomap_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build
-.PHONY : octomap_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-object_recognition_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : object_recognition_msgs_generate_messages_cpp
-
-# fast build rule for target.
-object_recognition_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
-.PHONY : object_recognition_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/rule
-
-# Convenience name for target.
-intera_interface_gencfg: dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/rule
-
-.PHONY : intera_interface_gencfg
-
-# fast build rule for target.
-intera_interface_gencfg/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/build.make dance_moves/src/ik/CMakeFiles/intera_interface_gencfg.dir/build
-.PHONY : intera_interface_gencfg/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : std_msgs_generate_messages_cpp
-
-# fast build rule for target.
-std_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
-.PHONY : std_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-geometry_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : geometry_msgs_generate_messages_lisp
-
-# fast build rule for target.
-geometry_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_lisp.dir/build
-.PHONY : geometry_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_cpp
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_cpp.dir/build
-.PHONY : intera_core_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_nodejs.dir/build
-.PHONY : actionlib_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-actionlib_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : actionlib_msgs_generate_messages_lisp
-
-# fast build rule for target.
-actionlib_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_lisp.dir/build
-.PHONY : actionlib_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
-
-.PHONY : std_msgs_generate_messages_eus
-
-# fast build rule for target.
-std_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_eus.dir/build
-.PHONY : std_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : std_msgs_generate_messages_lisp
-
-# fast build rule for target.
-std_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
-.PHONY : std_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_cpp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_cpp.dir/build
-.PHONY : sensor_msgs_generate_messages_cpp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-dynamic_reconfigure_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/rule
-
-.PHONY : dynamic_reconfigure_generate_messages_nodejs
-
-# fast build rule for target.
-dynamic_reconfigure_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_nodejs.dir/build
-.PHONY : dynamic_reconfigure_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-std_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/rule
-
-.PHONY : std_msgs_generate_messages_py
-
-# fast build rule for target.
-std_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/std_msgs_generate_messages_py.dir/build
-.PHONY : std_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
-
-.PHONY : roscpp_generate_messages_nodejs
-
-# fast build rule for target.
-roscpp_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
-.PHONY : roscpp_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_py
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_py.dir/build
-.PHONY : intera_core_msgs_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-trajectory_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/rule
-
-.PHONY : trajectory_msgs_generate_messages_eus
-
-# fast build rule for target.
-trajectory_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_eus.dir/build
-.PHONY : trajectory_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-# Convenience name for target.
-roscpp_generate_messages_py: dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/rule
-
-.PHONY : roscpp_generate_messages_py
-
-# fast build rule for target.
-roscpp_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/roscpp_generate_messages_py.dir/build
-.PHONY : roscpp_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_eus
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
-.PHONY : rosgraph_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_eus
-
-# fast build rule for target.
-sensor_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_eus.dir/build
-.PHONY : sensor_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-sensor_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : sensor_msgs_generate_messages_lisp
-
-# fast build rule for target.
-sensor_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/sensor_msgs_generate_messages_lisp.dir/build
-.PHONY : sensor_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/rule
-
-.PHONY : control_msgs_generate_messages_lisp
-
-# fast build rule for target.
-control_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_lisp.dir/build
-.PHONY : control_msgs_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-shape_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : shape_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-shape_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build
-.PHONY : shape_msgs_generate_messages_nodejs/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-# Convenience name for target.
-rosgraph_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
-
-.PHONY : rosgraph_msgs_generate_messages_py
-
-# fast build rule for target.
-rosgraph_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
-.PHONY : rosgraph_msgs_generate_messages_py/fast
+moveit_msgs_generate_messages_lisp/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_lisp.dir/build
+.PHONY : moveit_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -1154,72 +299,57 @@ moveit_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/moveit_msgs_
 
 # fast build rule for target.
 moveit_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_nodejs.dir/build
 .PHONY : moveit_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-control_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/rule
+moveit_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/rule
 
-.PHONY : control_msgs_generate_messages_cpp
+.PHONY : moveit_msgs_generate_messages_py
 
 # fast build rule for target.
-control_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_cpp.dir/build
-.PHONY : control_msgs_generate_messages_cpp/fast
+moveit_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/moveit_msgs_generate_messages_py.dir/build
+.PHONY : moveit_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
+dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-actionlib_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/rule
+shape_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : actionlib_msgs_generate_messages_eus
+.PHONY : shape_msgs_generate_messages_cpp
 
 # fast build rule for target.
-actionlib_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_msgs_generate_messages_eus.dir/build
-.PHONY : actionlib_msgs_generate_messages_eus/fast
+shape_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_cpp.dir/build
+.PHONY : shape_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
+dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-dynamic_reconfigure_generate_messages_py: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/rule
+shape_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/rule
 
-.PHONY : dynamic_reconfigure_generate_messages_py
+.PHONY : shape_msgs_generate_messages_eus
 
 # fast build rule for target.
-dynamic_reconfigure_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_py.dir/build
-.PHONY : dynamic_reconfigure_generate_messages_py/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-
-# Convenience name for target.
-control_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/rule
-
-.PHONY : control_msgs_generate_messages_nodejs
-
-# fast build rule for target.
-control_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/control_msgs_generate_messages_nodejs.dir/build
-.PHONY : control_msgs_generate_messages_nodejs/fast
+shape_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_eus.dir/build
+.PHONY : shape_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
 .PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -1229,173 +359,113 @@ shape_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/shape_msgs_gene
 
 # fast build rule for target.
 shape_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_lisp.dir/build
 .PHONY : shape_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/rule
+dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-trajectory_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/rule
+object_recognition_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/rule
 
-.PHONY : trajectory_msgs_generate_messages_lisp
+.PHONY : object_recognition_msgs_generate_messages_py
 
 # fast build rule for target.
-trajectory_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_lisp.dir/build
-.PHONY : trajectory_msgs_generate_messages_lisp/fast
+object_recognition_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_py.dir/build
+.PHONY : object_recognition_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
-actionlib_generate_messages_eus: dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/rule
+shape_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/rule
 
-.PHONY : actionlib_generate_messages_eus
+.PHONY : shape_msgs_generate_messages_nodejs
 
 # fast build rule for target.
-actionlib_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/actionlib_generate_messages_eus.dir/build
-.PHONY : actionlib_generate_messages_eus/fast
+shape_msgs_generate_messages_nodejs/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_nodejs.dir/build
+.PHONY : shape_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
-rosgraph_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+object_recognition_msgs_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/rule
 
-.PHONY : rosgraph_msgs_generate_messages_cpp
+.PHONY : object_recognition_msgs_generate_messages_cpp
 
 # fast build rule for target.
-rosgraph_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
-.PHONY : rosgraph_msgs_generate_messages_cpp/fast
+object_recognition_msgs_generate_messages_cpp/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_cpp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_cpp/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
+dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-trajectory_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/rule
+object_recognition_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/rule
 
-.PHONY : trajectory_msgs_generate_messages_py
+.PHONY : object_recognition_msgs_generate_messages_eus
 
 # fast build rule for target.
-trajectory_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/trajectory_msgs_generate_messages_py.dir/build
-.PHONY : trajectory_msgs_generate_messages_py/fast
+object_recognition_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_eus.dir/build
+.PHONY : object_recognition_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
+dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
-dynamic_reconfigure_generate_messages_cpp: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/rule
+octomap_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/rule
 
-.PHONY : dynamic_reconfigure_generate_messages_cpp
+.PHONY : octomap_msgs_generate_messages_eus
 
 # fast build rule for target.
-dynamic_reconfigure_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_cpp.dir/build
-.PHONY : dynamic_reconfigure_generate_messages_cpp/fast
+octomap_msgs_generate_messages_eus/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/octomap_msgs_generate_messages_eus.dir/build
+.PHONY : octomap_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
-geometry_msgs_generate_messages_nodejs: dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/rule
+shape_msgs_generate_messages_py: dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/rule
 
-.PHONY : geometry_msgs_generate_messages_nodejs
+.PHONY : shape_msgs_generate_messages_py
 
 # fast build rule for target.
-geometry_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/ik/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
-.PHONY : geometry_msgs_generate_messages_nodejs/fast
+shape_msgs_generate_messages_py/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/build.make dance_moves/src/ik/CMakeFiles/shape_msgs_generate_messages_py.dir/build
+.PHONY : shape_msgs_generate_messages_py/fast
 
 # Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
+dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
+.PHONY : dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
-dynamic_reconfigure_generate_messages_eus: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/rule
+object_recognition_msgs_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/rule
 
-.PHONY : dynamic_reconfigure_generate_messages_eus
+.PHONY : object_recognition_msgs_generate_messages_lisp
 
 # fast build rule for target.
-dynamic_reconfigure_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_eus.dir/build
-.PHONY : dynamic_reconfigure_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
-
-# Convenience name for target.
-dynamic_reconfigure_gencfg: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/rule
-
-.PHONY : dynamic_reconfigure_gencfg
-
-# fast build rule for target.
-dynamic_reconfigure_gencfg/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_gencfg.dir/build
-.PHONY : dynamic_reconfigure_gencfg/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
-
-# Convenience name for target.
-dynamic_reconfigure_generate_messages_lisp: dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/rule
-
-.PHONY : dynamic_reconfigure_generate_messages_lisp
-
-# fast build rule for target.
-dynamic_reconfigure_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/dynamic_reconfigure_generate_messages_lisp.dir/build
-.PHONY : dynamic_reconfigure_generate_messages_lisp/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-intera_core_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/rule
-
-.PHONY : intera_core_msgs_generate_messages_eus
-
-# fast build rule for target.
-intera_core_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/intera_core_msgs_generate_messages_eus.dir/build
-.PHONY : intera_core_msgs_generate_messages_eus/fast
-
-# Convenience name for target.
-dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-.PHONY : dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-
-# Convenience name for target.
-intera_motion_msgs_generate_messages_eus: dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/rule
-
-.PHONY : intera_motion_msgs_generate_messages_eus
-
-# fast build rule for target.
-intera_motion_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build.make dance_moves/src/ik/CMakeFiles/intera_motion_msgs_generate_messages_eus.dir/build
-.PHONY : intera_motion_msgs_generate_messages_eus/fast
+object_recognition_msgs_generate_messages_lisp/fast:
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build.make dance_moves/src/ik/CMakeFiles/object_recognition_msgs_generate_messages_lisp.dir/build
+.PHONY : object_recognition_msgs_generate_messages_lisp/fast
 
 # Help Target
 help:
@@ -1403,95 +473,33 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
+	@echo "... install/local"
 	@echo "... install"
+	@echo "... rebuild_cache"
+	@echo "... edit_cache"
 	@echo "... list_install_components"
-	@echo "... test"
-	@echo "... octomap_msgs_generate_messages_py"
 	@echo "... octomap_msgs_generate_messages_nodejs"
 	@echo "... octomap_msgs_generate_messages_lisp"
+	@echo "... octomap_msgs_generate_messages_py"
 	@echo "... octomap_msgs_generate_messages_cpp"
 	@echo "... object_recognition_msgs_generate_messages_nodejs"
-	@echo "... object_recognition_msgs_generate_messages_lisp"
-	@echo "... object_recognition_msgs_generate_messages_eus"
-	@echo "... shape_msgs_generate_messages_py"
-	@echo "... rebuild_cache"
-	@echo "... shape_msgs_generate_messages_eus"
-	@echo "... shape_msgs_generate_messages_cpp"
-	@echo "... moveit_msgs_generate_messages_py"
-	@echo "... moveit_msgs_generate_messages_lisp"
-	@echo "... moveit_msgs_generate_messages_eus"
+	@echo "... test"
 	@echo "... moveit_msgs_generate_messages_cpp"
-	@echo "... intera_motion_msgs_generate_messages_nodejs"
-	@echo "... intera_motion_msgs_generate_messages_lisp"
-	@echo "... roscpp_generate_messages_eus"
-	@echo "... actionlib_msgs_generate_messages_py"
-	@echo "... actionlib_generate_messages_cpp"
-	@echo "... object_recognition_msgs_generate_messages_py"
-	@echo "... rosgraph_msgs_generate_messages_nodejs"
-	@echo "... install/local"
-	@echo "... intera_core_msgs_generate_messages_lisp"
-	@echo "... actionlib_generate_messages_py"
-	@echo "... trajectory_msgs_generate_messages_cpp"
-	@echo "... actionlib_generate_messages_nodejs"
-	@echo "... control_msgs_generate_messages_eus"
-	@echo "... trajectory_msgs_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_cpp"
-	@echo "... intera_core_msgs_generate_messages_nodejs"
-	@echo "... geometry_msgs_generate_messages_eus"
-	@echo "... std_msgs_generate_messages_nodejs"
-	@echo "... roscpp_generate_messages_cpp"
-	@echo "... intera_motion_msgs_generate_messages_cpp"
-	@echo "... edit_cache"
-	@echo "... sensor_msgs_generate_messages_nodejs"
-	@echo "... intera_motion_msgs_generate_messages_py"
-	@echo "... geometry_msgs_generate_messages_py"
-	@echo "... sensor_msgs_generate_messages_py"
-	@echo "... roscpp_generate_messages_lisp"
-	@echo "... actionlib_generate_messages_lisp"
-	@echo "... rosgraph_msgs_generate_messages_lisp"
-	@echo "... geometry_msgs_generate_messages_cpp"
-	@echo "... control_msgs_generate_messages_py"
-	@echo "... octomap_msgs_generate_messages_eus"
-	@echo "... object_recognition_msgs_generate_messages_cpp"
-	@echo "... intera_interface_gencfg"
-	@echo "... std_msgs_generate_messages_cpp"
-	@echo "... geometry_msgs_generate_messages_lisp"
-	@echo "... intera_core_msgs_generate_messages_cpp"
-	@echo "... actionlib_msgs_generate_messages_nodejs"
-	@echo "... actionlib_msgs_generate_messages_lisp"
-	@echo "... std_msgs_generate_messages_eus"
-	@echo "... std_msgs_generate_messages_lisp"
-	@echo "... sensor_msgs_generate_messages_cpp"
-	@echo "... dynamic_reconfigure_generate_messages_nodejs"
-	@echo "... std_msgs_generate_messages_py"
-	@echo "... roscpp_generate_messages_nodejs"
-	@echo "... intera_core_msgs_generate_messages_py"
-	@echo "... trajectory_msgs_generate_messages_eus"
-	@echo "... roscpp_generate_messages_py"
-	@echo "... rosgraph_msgs_generate_messages_eus"
-	@echo "... sensor_msgs_generate_messages_eus"
-	@echo "... sensor_msgs_generate_messages_lisp"
-	@echo "... control_msgs_generate_messages_lisp"
-	@echo "... shape_msgs_generate_messages_nodejs"
-	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... moveit_msgs_generate_messages_eus"
+	@echo "... moveit_msgs_generate_messages_lisp"
 	@echo "... moveit_msgs_generate_messages_nodejs"
-	@echo "... control_msgs_generate_messages_cpp"
-	@echo "... actionlib_msgs_generate_messages_eus"
-	@echo "... dynamic_reconfigure_generate_messages_py"
-	@echo "... control_msgs_generate_messages_nodejs"
+	@echo "... moveit_msgs_generate_messages_py"
+	@echo "... shape_msgs_generate_messages_cpp"
+	@echo "... shape_msgs_generate_messages_eus"
 	@echo "... shape_msgs_generate_messages_lisp"
-	@echo "... trajectory_msgs_generate_messages_lisp"
-	@echo "... actionlib_generate_messages_eus"
-	@echo "... rosgraph_msgs_generate_messages_cpp"
-	@echo "... trajectory_msgs_generate_messages_py"
-	@echo "... dynamic_reconfigure_generate_messages_cpp"
-	@echo "... geometry_msgs_generate_messages_nodejs"
-	@echo "... dynamic_reconfigure_generate_messages_eus"
-	@echo "... dynamic_reconfigure_gencfg"
-	@echo "... dynamic_reconfigure_generate_messages_lisp"
-	@echo "... intera_core_msgs_generate_messages_eus"
-	@echo "... intera_motion_msgs_generate_messages_eus"
+	@echo "... install/strip"
+	@echo "... object_recognition_msgs_generate_messages_py"
+	@echo "... shape_msgs_generate_messages_nodejs"
+	@echo "... object_recognition_msgs_generate_messages_cpp"
+	@echo "... object_recognition_msgs_generate_messages_eus"
+	@echo "... octomap_msgs_generate_messages_eus"
+	@echo "... shape_msgs_generate_messages_py"
+	@echo "... object_recognition_msgs_generate_messages_lisp"
 .PHONY : help
 
 
@@ -1503,6 +511,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/cc/ee106a/fa23/class/ee106a-aey/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
