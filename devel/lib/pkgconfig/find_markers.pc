@@ -1,8 +1,0 @@
-prefix=/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/devel
-
-Name: find_markers
-Description: Description of find_markers
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

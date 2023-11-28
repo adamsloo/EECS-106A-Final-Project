@@ -39,6 +39,7 @@ class ArListener:
 
     # Gets list of ar markers
     def ar_marker_callback(self, data):
+        global current_marker_names
         if self.allow_execution:
             self.allow_execution = False
             self.current_marker_names = [marker.id for marker in data.markers]
