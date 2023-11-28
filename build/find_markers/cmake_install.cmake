@@ -1,8 +1,8 @@
-# Install script for directory: /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/find_markers
+# Install script for directory: /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src/find_markers
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install")
+  set(CMAKE_INSTALL_PREFIX "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -38,17 +38,17 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markers.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markers.pc")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/find_markers/cmake" TYPE FILE FILES
-    "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markersConfig.cmake"
-    "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markersConfig-version.cmake"
+    "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markersConfig.cmake"
+    "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/find_markers/catkin_generated/installspace/find_markersConfig-version.cmake"
     )
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/find_markers" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/find_markers/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/find_markers" TYPE FILE FILES "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src/find_markers/package.xml")
 endif()
 

@@ -30,6 +30,8 @@ from intera_interface import gripper as robot_gripper
 from ar_track_alvar_msgs.msg import AlvarMarkers
 from std_msgs.msg import String
 
+current_marker_names = []
+
 class ArListener:
     def __init__(self):
         self.allow_execution = True
@@ -40,6 +42,7 @@ class ArListener:
         if self.allow_execution:
             self.allow_execution = False
             self.current_marker_names = [marker.id for marker in data.markers]
+            current_marker_names = self.current_marker_names
             print("Marker IDs: ", self.current_marker_names)
         else:
             pass
@@ -59,6 +62,19 @@ class ArListener:
         pass
 
 
+def seen_markers_publisher_node():
+    rospy.init_node('seen_markers_publisher_node')
+    pub = rospy.Publisher('/seen_markers', String, queue_size = 10)
+    rate = rospy.Rate(1)
+
+    listener = ArListener()
+    listener.listen()
+
+    while not rospy.is_shutdown():
+        rospy.loginfo(current_marker_names)
+        pub.publish(current_marker_names)
+        rate.sleep()
+
 def tuck():
         """
         Tuck the robot arm to the start position. Use with caution
@@ -76,6 +92,8 @@ def tuck():
 
 if __name__ == "__main__":
     #tuck()
-    listener = ArListener()
-    listener.listen()
+    try:
+        seen_markers_publisher_node()
+    except rospy.ROSInterruptException:
+        pass
 

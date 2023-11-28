@@ -67,14 +67,14 @@ set(sawyer_full_stack_CONFIG_INCLUDED TRUE)
 
 # set variables for source/devel/install prefixes
 if("FALSE" STREQUAL "TRUE")
-  set(sawyer_full_stack_SOURCE_PREFIX /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/sawyer_full_stack)
-  set(sawyer_full_stack_DEVEL_PREFIX /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel)
+  set(sawyer_full_stack_SOURCE_PREFIX /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src/sawyer_full_stack)
+  set(sawyer_full_stack_DEVEL_PREFIX /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/devel)
   set(sawyer_full_stack_INSTALL_PREFIX "")
   set(sawyer_full_stack_PREFIX ${sawyer_full_stack_DEVEL_PREFIX})
 else()
   set(sawyer_full_stack_SOURCE_PREFIX "")
   set(sawyer_full_stack_DEVEL_PREFIX "")
-  set(sawyer_full_stack_INSTALL_PREFIX /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install)
+  set(sawyer_full_stack_INSTALL_PREFIX /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/install)
   set(sawyer_full_stack_PREFIX ${sawyer_full_stack_INSTALL_PREFIX})
 endif()
 
@@ -154,7 +154,7 @@ foreach(library ${libraries})
     set(lib_path "")
     set(lib "${library}-NOTFOUND")
     # since the path where the library is found is returned we have to iterate over the paths manually
-    foreach(path /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/install/lib;/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel/lib;/opt/ros/eecsbot_ws/devel/lib;/opt/ros/noetic/lib)
+    foreach(path /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/install/lib;/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/devel/lib;/opt/ros/eecsbot_ws/devel/lib;/opt/ros/noetic/lib)
       find_library(lib ${library}
         PATHS ${path}
         NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH)

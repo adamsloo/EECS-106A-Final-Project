@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build
 
 # Utility rule file for intera_motion_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build: i
 .PHONY : baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/build
 
 baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/baxter_pykdl && $(CMAKE_COMMAND) -P CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/baxter_pykdl && $(CMAKE_COMMAND) -P CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/clean
 
 baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/baxter_pykdl /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : baxter_pykdl/CMakeFiles/intera_motion_msgs_generate_messages_nodejs.dir/depend
 

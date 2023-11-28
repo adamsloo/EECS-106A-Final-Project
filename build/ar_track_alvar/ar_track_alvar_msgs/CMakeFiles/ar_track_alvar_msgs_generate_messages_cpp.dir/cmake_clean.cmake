@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel/include/ar_track_alvar_msgs/AlvarMarker.h"
-  "/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/devel/include/ar_track_alvar_msgs/AlvarMarkers.h"
+  "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/devel/include/ar_track_alvar_msgs/AlvarMarker.h"
+  "/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/devel/include/ar_track_alvar_msgs/AlvarMarkers.h"
   "CMakeFiles/ar_track_alvar_msgs_generate_messages_cpp"
 )
 

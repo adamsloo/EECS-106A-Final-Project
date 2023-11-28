@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src
+CMAKE_SOURCE_DIR = /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build
+CMAKE_BINARY_DIR = /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -137,14 +137,14 @@ install/local/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/CMakeFiles /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/dance_moves/src/planning/CMakeFiles/progress.marks
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build/CMakeFiles 0
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/CMakeFiles /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/dance_moves/src/planning/CMakeFiles/progress.marks
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/clean
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/clean
 .PHONY : clean
 
 # The main clean target
@@ -154,22 +154,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/preinstall
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/preinstall
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
 .PHONY : dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/rule
 
 # Convenience name for target.
@@ -179,12 +179,12 @@ baxter_maintenance_msgs_generate_messages_py: dance_moves/src/planning/CMakeFile
 
 # fast build rule for target.
 baxter_maintenance_msgs_generate_messages_py/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_py.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_py/fast
 
 # Convenience name for target.
 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
 .PHONY : dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/rule
 
 # Convenience name for target.
@@ -194,12 +194,12 @@ baxter_maintenance_msgs_generate_messages_nodejs: dance_moves/src/planning/CMake
 
 # fast build rule for target.
 baxter_maintenance_msgs_generate_messages_nodejs/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_nodejs.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_nodejs/fast
 
 # Convenience name for target.
 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/rule
 .PHONY : dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/rule
 
 # Convenience name for target.
@@ -209,12 +209,12 @@ baxter_maintenance_msgs_generate_messages_lisp: dance_moves/src/planning/CMakeFi
 
 # fast build rule for target.
 baxter_maintenance_msgs_generate_messages_lisp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_lisp.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_lisp/fast
 
 # Convenience name for target.
 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/rule
 .PHONY : dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/rule
 
 # Convenience name for target.
@@ -224,12 +224,12 @@ baxter_maintenance_msgs_generate_messages_eus: dance_moves/src/planning/CMakeFil
 
 # fast build rule for target.
 baxter_maintenance_msgs_generate_messages_eus/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_eus.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_eus/fast
 
 # Convenience name for target.
 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/rule:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/rule
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f CMakeFiles/Makefile2 dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/rule
 .PHONY : dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/rule
 
 # Convenience name for target.
@@ -239,7 +239,7 @@ baxter_maintenance_msgs_generate_messages_cpp: dance_moves/src/planning/CMakeFil
 
 # fast build rule for target.
 baxter_maintenance_msgs_generate_messages_cpp/fast:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(MAKE) -f dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build.make dance_moves/src/planning/CMakeFiles/baxter_maintenance_msgs_generate_messages_cpp.dir/build
 .PHONY : baxter_maintenance_msgs_generate_messages_cpp/fast
 
 # Help Target
@@ -271,6 +271,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -6,7 +6,7 @@ from os import path as os_path
 from pkgutil import extend_path
 from sys import path as sys_path
 
-__extended_path = '/home/cc/ee106a/fa23/class/ee106a-aiq/Desktop/EECS-106A-Final-Project/src/sawyer_full_stack/src'.split(';')
+__extended_path = '/home/cc/ee106a/fa23/class/ee106a-afk/ros_workspaces/EECS-106A-Final-Project/src/sawyer_full_stack/src'.split(';')
 for p in reversed(__extended_path):
     sys_path.insert(0, p)
     del p
