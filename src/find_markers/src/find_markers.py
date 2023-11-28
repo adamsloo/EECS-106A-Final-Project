@@ -28,50 +28,25 @@ from sawyer_pykdl import sawyer_kinematics
 
 from intera_interface import gripper as robot_gripper
 from ar_track_alvar_msgs.msg import AlvarMarkers
-from std_msgs.msg import String
+from std_msgs.msg import String, Float32MultiArray
 
-current_processing_marker = None
+current_marker_names = []
 
-class ArListener:
-    def __init__(self):
-        self.allow_execution = True
-        self.current_marker_names = []
-
-    # Gets list of ar markers, resets the global variables 
-    def ar_marker_callback(self, data):
-        global current_marker_names
-        if self.allow_execution:
-            self.allow_execution = False
-            self.current_marker_names = [marker.id for marker in data.markers]
-            current_marker_names = self.current_marker_names
-            print("Marker IDs: ", self.current_marker_names)
-        else:
-            pass
-
-    # Controls when we take a look at what markers are in the workspace
-    def timer_callback(self, event):
-        self.allow_execution = True
-
-    # Node subscribing to topic where all ar markers are published
-    def listen(self):
-        rospy.init_node("ar_marker_listiner")
-        rospy.Timer(rospy.Duration(10), self.timer_callback)
-        rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
-        rospy.spin()
-
-# Node that publishes the current seen markers to topic '/seen_markers'
-def seen_markers_publisher_node():
-    rospy.init_node('seen_markers_publisher_node')
-    pub = rospy.Publisher('/seen_markers', String, queue_size = 10)
-    rate = rospy.Rate(1)
-
-    listener = ArListener()
-    listener.listen()
-
-    while not rospy.is_shutdown():
-        rospy.loginfo(current_marker_names)
-        pub.publish(current_marker_names)
+# Gets list of ar markers, resets the global variables 
+def ar_marker_callback(data):
+    global allow_execution
+    rate = rospy.Rate(5)
+    if allow_execution:
+        allow_execution = False
+        current_marker_names = [float(marker.id) for marker in data.markers]
+        message = Float32MultiArray()
+        message.data = current_marker_names
+        pub.publish(message)
+        print("Marker IDs: ", current_marker_names)
         rate.sleep()
+        allow_execution = True
+    else:
+        pass
 
 def tuck():
         """
@@ -89,9 +64,12 @@ def tuck():
             print('Canceled. Not tucking the arm.')
 
 if __name__ == "__main__":
-    #tuck()
     try:
-        seen_markers_publisher_node()
+        allow_execution = True
+        rospy.init_node('ar_marker_listener', anonymous =  True)
+        pub = rospy.Publisher('/seen_markers', Float32MultiArray, queue_size = 10)
+        rospy.Subscriber("/ar_pose_marker", AlvarMarkers, ar_marker_callback)
+        rospy.spin()
     except rospy.ROSInterruptException:
         pass
 
