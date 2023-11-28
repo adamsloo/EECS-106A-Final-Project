@@ -30,14 +30,14 @@ from intera_interface import gripper as robot_gripper
 from ar_track_alvar_msgs.msg import AlvarMarkers
 from std_msgs.msg import String
 
-current_marker_names = []
+current_processing_marker = None
 
 class ArListener:
     def __init__(self):
         self.allow_execution = True
         self.current_marker_names = []
 
-    # Gets list of ar markers
+    # Gets list of ar markers, resets the global variables 
     def ar_marker_callback(self, data):
         global current_marker_names
         if self.allow_execution:
@@ -59,10 +59,7 @@ class ArListener:
         rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
         rospy.spin()
 
-    def choose_random_marker(self):
-        pass
-
-
+# Node that publishes the current seen markers to topic '/seen_markers'
 def seen_markers_publisher_node():
     rospy.init_node('seen_markers_publisher_node')
     pub = rospy.Publisher('/seen_markers', String, queue_size = 10)
