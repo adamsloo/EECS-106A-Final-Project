@@ -1,3 +1,4 @@
+
 """
 Recieves ar tracker number to move and moves it to the next spot in the line. 
 Notes for implementation:
@@ -95,42 +96,6 @@ class MoveTag:
         tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
         return np.array(tag_pos)
 
-    # def get_trajectory(self, limb, kin, ik_solver, tag_pos, num_way, task):
-    #     """
-    #     Returns an appropriate robot trajectory for the specified task.  You should 
-    #     be implementing the path functions in paths.py and call them here
-        
-    #     Parameters
-    #     ----------
-    #     task : string
-    #         name of the task.  Options: line, circle, square
-    #     tag_pos : 3x' :obj:`numpy.ndarray`
-            
-    #     Returns
-    #     -------
-    #     :obj:`moveit_msgs.msg.RobotTrajectory`
-    #     """
-
-    #     tfBuffer = tf2_ros.Buffer()
-    #     listener = tf2_ros.TransformListener(tfBuffer)
-
-    #     try:
-    #         trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
-    #     except Exception as e:
-    #         print(e)
-
-    #     current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
-    #     print("Current Position:", current_position)
-
-    #     if task == 'line':
-    #         target_pos = self.get_next_pos(self.lookup_tag(self.prev_ar_tag))
-    #         target_pos[2] += 0.05 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
-    #         print("TARGET POSITION:", target_pos)
-    #         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=9)
-        
-    #     path = MotionPath(limb, kin, ik_solver, trajectory)
-    #     return path.to_robot_trajectory(num_way, True)
-
 
     def main(self, data):
         rospy.loginfo("Received data: %s", data.data)
@@ -149,30 +114,28 @@ class MoveTag:
         limb = intera_interface.Limb("right")
         kin = sawyer_kinematics("right")
 
+        moveit_commander.roscpp_initialize()
+        rospy.init_node('moveit_python_example', anonymous=True)
+        robot = moveit_commander.RobotCommander()
+        group_name = "right_arm"
+        group = moveit_commander.MoveGroupCommander(group_name)
+
+        group.set_pose_reference_frame('base_link')
+
+        start_pose = Pose()
+        #TODO: set poses
+        group.set_start_state_to_current_state()
+        group.set_pose_target(start_pose)
+
+        goal_pose = Pose()
+        #TODO: set pose
+        group.set_pose_target(goal_pose)
+
+
+
         # Lookup the AR tag position.
         tag_pos = self.lookup_tag(ar_tag)
 
-        # Get an appropriate RobotTrajectory for the task (circular, linear, or square)
-        # If the controller is a workspace controller, this should return a trajectory where the
-        # positions and velocities are workspace positions and velocities.  If the controller
-        # is a jointspace or torque controller, it should return a trajectory where the positions
-        # and velocities are the positions and velocities of each joint.
-        # TODO
-        #robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, args)
-        robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, num_way=50, task ='line')
-
-        # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
-        # of the trajectory
-        planner = PathPlanner('right_arm')
-        
-        # By publishing the trajectory to the move_group/display_planned_path topic, you should 
-        # be able to view it in RViz.  You will have to click the "loop animation" setting in 
-        # the planned path section of MoveIt! in the menu on the left side of the screen.
-        trajectory_pub = rospy.Publisher('move_group/display_planned_path', DisplayTrajectory, queue_size=10)
-        disp_traj = DisplayTrajectory()
-        disp_traj.trajectory.append(robot_trajectory)
-        disp_traj.trajectory_start = RobotState()
-        trajectory_pub .publish(disp_traj)
 
         # Move to the trajectory start position
         try:
