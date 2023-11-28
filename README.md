@@ -19,5 +19,9 @@ Isabella Borkovic, Heather Ding, Adam Loo, Justin Zhang
 * 
 
 ### song_queue
-* 
+* pick_up.py
+* server.py
+* upload_photo.py
+    * a
+
 
