@@ -43,7 +43,9 @@ def tuck():
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
+        print('tuck start ####################################')
         launch.start()
+        print('tuck start finished ####################################')
     else:
         print('Canceled. Not tucking the arm.')
 
@@ -79,7 +81,7 @@ def lookup_tag(tag_number):
     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
     return np.array(tag_pos)
 
-def get_trajectory(limb, kin, ik_solver, tag_pos, args):
+def get_trajectory(limb, kin, ik_solver, tag_pos, args, z_offset = 0.005):
     """
     Returns an appropriate robot trajectory for the specified task.  You should 
     be implementing the path functions in paths.py and call them here
@@ -107,18 +109,23 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, args):
 
     current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
     print("Current Position:", current_position)
+    #print("TASK ", type(task))
 
     if task == 'line':
         target_pos = tag_pos[0]
-        target_pos[2] += 0.05 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
+        target_pos[2] += z_offset #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
         print("TARGET POSITION:", target_pos)
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=9)
+    elif task == 'adjustment':
+        target_pos = current_position
+        target_pos[2] -= 0.003
+        print("TARGET POSITION ADJUSTMENT:", target_pos)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
     elif task == 'circle':
         target_pos = tag_pos[0]
         target_pos[2] += 0.5
         print("TARGET POSITION:", target_pos)
         trajectory = CircularTrajectory(center_position=target_pos, radius=0.1, total_time=15)
-
     else:
         raise ValueError('task {} not recognized'.format(task))
     
@@ -228,7 +235,7 @@ def main():
     # Move to the trajectory start position
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     if args.controller_name != "moveit":
-        plan = planner.retime_trajectory(plan, 0.3)
+        plan = planner.retime_trajectory(plan, 0.003)
     planner.execute_plan(plan[1])
 
     if args.controller_name == "moveit":
@@ -240,8 +247,18 @@ def main():
         print("opening right gripper...")
         right_gripper.open()
         planner.execute_plan(robot_trajectory)
+
+        # Adjusting to get closer to the cube
+        args.task = 'adjustment'
+        robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, args)
+        plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+        if args.controller_name != "moveit":
+            plan = planner.retime_trajectory(plan)
+        planner.execute_plan(plan[1])
+        planner.execute_plan(robot_trajectory)
+
         right_gripper.close()
-        rospy.init_node('moveit_node')
+        print("gripper closed ####################################")
         tuck()
 
     else:

@@ -17,8 +17,7 @@ class UpdateQueue:
         rospy.loginfo("Received data: %s", data.data)
         ar_tags = data.data
 
-        # TODO: Check if current song is over/almost over before chosing the next ar tag
-        # HOW LONG DO WE NEED TO WAIT?
+        # TODO: GET INFO FROM BACKEND ON WHEN A SON IS CLOSE TO OVER
         if len(ar_tags) == 0:
             print("NO AR TAGS IN WORKSPACE")
         else:
