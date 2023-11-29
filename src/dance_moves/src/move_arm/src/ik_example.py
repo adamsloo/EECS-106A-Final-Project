@@ -26,21 +26,21 @@ def main():
         request.ik_request.ik_link_name = link
         # request.ik_request.attempts = 20
         request.ik_request.pose_stamped.header.frame_id = "base"
-        left_position = [0.453, -0.231, 0.98, 0.330, 0.539, -0.528, 0.567]
-        right_position = [0.302, 0.46, 0.953, -0.521, 0.397, 0.084, 0.751]
-        down_position = [0.860, 0.695, 0.570,-0.169, 0.760, 0.071, 0.624]
-        up_position = [0.633, 0.664, 0.995,-0.143, 0.558, 0.179, 0.798]
 
-        desired_position = left_position
+        position_1 = [0.879, -0.462, 0.932, 0.104, 0.426, -0.414, 0.798]
+        position_2 = [0.890, 0.107, 0.221, -0.023, 0.967, 0.008, 0.254]
+        position_3 = [0.727, 0.648, 0.928, -0.214, 0.310, 0.132, 0.917]
+
+        desired_pos = position_1
 
         # Set the desired orientation for the end effector HERE
-        request.ik_request.pose_stamped.pose.position.x = desired_position[0]
-        request.ik_request.pose_stamped.pose.position.y = desired_position[1]
-        request.ik_request.pose_stamped.pose.position.z = desired_position[2]     
-        request.ik_request.pose_stamped.pose.orientation.x = desired_position[3]
-        request.ik_request.pose_stamped.pose.orientation.y = desired_position[4]
-        request.ik_request.pose_stamped.pose.orientation.z = desired_position[5]
-        request.ik_request.pose_stamped.pose.orientation.w = desired_position[6]
+        request.ik_request.pose_stamped.pose.position.x = desired_pos[0]
+        request.ik_request.pose_stamped.pose.position.y = desired_pos[1]
+        request.ik_request.pose_stamped.pose.position.z = desired_pos[2]       
+        request.ik_request.pose_stamped.pose.orientation.x = desired_pos[3]
+        request.ik_request.pose_stamped.pose.orientation.y = desired_pos[4]
+        request.ik_request.pose_stamped.pose.orientation.z = desired_pos[5]
+        request.ik_request.pose_stamped.pose.orientation.w = desired_pos[6]
         
         try:
             # Send the request to the service
