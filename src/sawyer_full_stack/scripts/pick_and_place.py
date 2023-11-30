@@ -109,21 +109,24 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
     #print("TASK ", type(task))
 
     if task == 'line':
+        print("line")
         target_pos = tag_pos
-        target_pos[2] = z + 0.3 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
+        target_pos[2] = z + 0.4 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
         print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=9)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
     elif task == 'adjustment':
+        print("adjustment")
         target_pos = current_position
         target_pos[2] = z
         print("TARGET POSITION ADJUSTMENT:", target_pos)
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
     elif task == 'queue':
+        print("queue")
         target_pos = tag_pos
         target_pos[2] = z
-        target_pos[1] -= 0.020
+        target_pos[1] -= 0.080
         print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=9)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
         
     else:
         raise ValueError('task {} not recognized'.format(task))
@@ -172,7 +175,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
 
     # Uses MoveIt! to execute the trajectory.
     print("opening right gripper...")
-    right_gripper.open()
+    right_gripper.close()
     planner.execute_plan(robot_trajectory)
 
     # Adjusting to get closer to the cube
@@ -182,7 +185,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     planner.execute_plan(robot_trajectory)
     time.sleep(5)
     # Grab the cube
-    right_gripper.close()
+    right_gripper.open()
 
     tuck()
 
@@ -194,7 +197,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
     # Place the cube
-    right_gripper.open()
+    right_gripper.close()
 
     print("finished...")
 
