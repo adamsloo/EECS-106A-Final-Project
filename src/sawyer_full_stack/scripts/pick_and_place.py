@@ -42,9 +42,9 @@ def tuck():
         uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
         roslaunch.configure_logging(uuid)
         launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
-        print('tuck start ####################################')
+        #print('tuck start ####################################')
         launch.start()
-        print('tuck start finished ####################################')
+        #print('tuck start finished ####################################')
     else:
         print('Canceled. Not tucking the arm.')
 
