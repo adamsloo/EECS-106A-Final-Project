@@ -28,6 +28,8 @@ from sawyer_pykdl import sawyer_kinematics
 
 from intera_interface import gripper as robot_gripper
 
+import time
+
 
 def tuck():
     """
@@ -78,7 +80,7 @@ def lookup_tag(tag_number):
     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
     return np.array(tag_pos)
 
-def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = 0):
+def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
     """
     Returns an appropriate robot trajectory for the specified task.  You should 
     be implementing the path functions in paths.py and call them here
@@ -174,15 +176,14 @@ def main(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
     planner.execute_plan(robot_trajectory)
 
     # Adjusting to get closer to the cube
-    args.task = 'adjustment'
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task)
+    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task='adjustment')
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
-
+    time.sleep(5)
+    # Grab the cube
     right_gripper.close()
 
-    # TODO: troubleshoot this tuck
     tuck()
 
     ####### PLACE ########
@@ -192,8 +193,12 @@ def main(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
+    # Place the cube
+    right_gripper.open()
+
+    print("finished...")
 
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    main(0, 7)
+    main(17, 16)
