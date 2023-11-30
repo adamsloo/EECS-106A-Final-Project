@@ -132,7 +132,7 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
     return path.to_robot_trajectory(num_way, True)
 
 
-def main(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
+def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
     # Marker should be a single ar marker string
 
     rospy.init_node('moveit_node')
@@ -201,4 +201,4 @@ def main(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    main(17, 16)
+    pick_and_place(17, 16)

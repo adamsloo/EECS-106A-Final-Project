@@ -15,11 +15,15 @@ def ik_service_client():
     pose_stamped = PoseStamped()
     pose_stamped.header = header
 
-    user_input = input("Enter x y z: ")
+    user_input = input("Enter x y z, orientation: ")
     input_split = user_input.split(" ")
     x = float(input_split[0])
     y = float(input_split[1])
     z = float(input_split[2])
+    qx = float(input_split[3])
+    qy = float(input_split[4])
+    qz = float(input_split[5])
+    qw = float(input_split[6])
     # Set end effector position: YOUR CODE HERE
 
     pos = Point()
@@ -29,10 +33,10 @@ def ik_service_client():
     # Set end effector quaternion: YOUR CODE HERE
 
     orient = Quaternion()
-    orient.x = 0
-    orient.y = 1   
-    orient.z = 0
-    orient.w = 0
+    orient.x = qx
+    orient.y = qy  
+    orient.z = qz
+    orient.w = qw
     pose_stamped.pose.position = pos
     pose_stamped.pose.orientation = orient
 
