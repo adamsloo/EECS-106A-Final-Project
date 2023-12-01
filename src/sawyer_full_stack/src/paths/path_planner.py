@@ -117,6 +117,9 @@ class PathPlanner(object):
         Outputs:
         path: A moveit_msgs/RobotTrajectory path
         """
+        self._group.set_max_velocity_scaling_factor(0.5)
+        self._group.set_max_acceleration_scaling_factor(0.5)
+        
         self._group.set_num_planning_attempts(100)
         self._group.set_joint_value_target(target_joints)
         self._group.set_start_state_to_current_state()

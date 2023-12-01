@@ -4,6 +4,7 @@ import requests
 import base64
 from std_msgs.msg import Int32
 from std_msgs.msg import String
+from song_queue.srv import SongEnding
 
 NOW_PLAYING_ENDPOINT = 'https://api.spotify.com/v1/me/player/currently-playing';
 QUEUE_ENDPOINT = 'https://api.spotify.com/v1/me/player/queue';
@@ -17,18 +18,17 @@ basic = "ZDBhMTdlNzEzZmYwNDYyZWI5MGRjNWY3Y2ZmNzA4M2M6YjUyNjBhNDBkOGZiNGVjYjlmMTZ
 token = None
 
 current_song = ""
-next_song = ""
-
-visible_ar_tags = []
-available_ar_tags = [15, 17]
-queue = []
 
 def main():
-    pub = rospy.Publisher("/time_left_ms", Int32, queue_size=10) #publishes how many milliseconds are left
+    rospy.wait_for_service('change_song')
+    change_song = rospy.ServiceProxy('change_song', SongEnding)
 
     while not rospy.is_shutdown():
-        time_left = Int32(get_currently_playing())
-        pub.publish(time_left)
+        time_left, uri = get_currently_playing()
+        if current_song != uri and time_left < 30000: # we haven't sent the message yet
+            current_song = uri
+            resp = change_song(time_left)
+            
 
 def refresh_the_token(): 
     global token
@@ -60,15 +60,19 @@ def get_currently_playing():
     if token == None:
         refresh_the_token()
     headers = {
-        'Authorization': "Bearer " + token
+        'Authorization': "Bearer " + token,
+        'Content-Type':'application/json'
     }
+    print("poop")
     response = requests.get(NOW_PLAYING_ENDPOINT, headers=headers)
+    print(response)
     response_json = response.json()
     progress_ms, duration_ms, url = response_json["progress_ms"], response_json["item"]["duration_ms"], response_json["item"]["external_urls"]["spotify"]
-    return duration_ms - progress_ms
-    #    switch_song(url)
+    uri = response_json["item"["uri"]]
+    return duration_ms - progress_ms, uri
 
 if __name__ == "__main__":
-    rospy.init_node('remaining_time', anonymous=True)
-    main()
+    get_currently_playing()
+    #rospy.init_node('remaining_time', anonymous=True)
+    #main()
 

@@ -1,5 +1,0 @@
-# Service request consists of how much time left before doing the action
-int64 time_left 
----
-bool success
-# Service response 
