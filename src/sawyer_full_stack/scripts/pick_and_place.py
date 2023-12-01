@@ -35,18 +35,18 @@ def tuck():
     """
     Tuck the robot arm to the start position. Use with caution
     """
-    if input('Would you like to tuck the arm? (y/n): ') == 'y':
-        rospack = rospkg.RosPack()
-        path = rospack.get_path('sawyer_full_stack')
-        launch_path = path + '/launch/custom_sawyer_tuck.launch'
-        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-        roslaunch.configure_logging(uuid)
-        launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
-        #print('tuck start ####################################')
-        launch.start()
+    #if input('Would you like to tuck the arm? (y/n): ') == 'y':
+    rospack = rospkg.RosPack()
+    path = rospack.get_path('sawyer_full_stack')
+    launch_path = path + '/launch/custom_sawyer_tuck.launch'
+    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+    roslaunch.configure_logging(uuid)
+    launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
+    #print('tuck start ####################################')
+    launch.start()
         #print('tuck start finished ####################################')
-    else:
-        print('Canceled. Not tucking the arm.')
+    # else:
+    #     print('Canceled. Not tucking the arm.')
 
 def lookup_tag(tag_number):
     """
@@ -80,7 +80,7 @@ def lookup_tag(tag_number):
     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
     return np.array(tag_pos)
 
-def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
+def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=-0.003, y_offset=0.0029, x_offset = 0.001 ):
     """
     Returns an appropriate robot trajectory for the specified task.  You should 
     be implementing the path functions in paths.py and call them here
@@ -95,6 +95,8 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
     -------
     :obj:`moveit_msgs.msg.RobotTrajectory`
     """
+    x_offset = 0
+    y_offset = 0
 
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
@@ -112,6 +114,7 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
         print("line")
         target_pos = tag_pos
         target_pos[2] = z + 0.4 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
+        target_pos[1] += y_offset
         print("TARGET POSITION:", target_pos)
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
     elif task == 'adjustment':
@@ -124,7 +127,7 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z = -0.003):
         print("queue")
         target_pos = tag_pos
         target_pos[2] = z
-        target_pos[1] -= 0.080
+        target_pos[1] -= 0.08 + y_offset
         print("TARGET POSITION:", target_pos)
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
         
@@ -147,7 +150,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     # Calibrate the gripper (other commands won't work unless you do this first)
     print('Calibrating...')
     right_gripper.calibrate()
-    rospy.sleep(2.0)
+    rospy.sleep(1.0)
     
     # this is used for sending commands (velocity, torque, etc) to the robot
     ik_solver = IK("base", "right_gripper_tip")
@@ -183,7 +186,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
-    time.sleep(5)
+    rospy.sleep(1.0)
     # Grab the cube
     right_gripper.open()
 
@@ -204,4 +207,4 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    pick_and_place(17, 16)
+    pick_and_place(15, 17)
