@@ -192,7 +192,6 @@ class LinearTrajectory(Trajectory):
             #self.start_position + (self.total_time / 2.0)**2 * self.acceleration * 0.5
             t = time - self.total_time / 2.0
             pos = halfway_position + self.v_max * t + 0.5 * -self.acceleration * t **2
-        print("pos", pos)
         return np.hstack((pos, self.desired_orientation))
 
     def target_velocity(self, time):
@@ -223,7 +222,6 @@ class LinearTrajectory(Trajectory):
             # For the second half of the trajectory, maintain a constant deceleration
             t = time - self.total_time / 2.0
             linear_vel = self.v_max -self.acceleration * t
-        print("linear vel", linear_vel)
         return np.hstack((linear_vel, np.zeros(3)))
 
 class CircularTrajectory(Trajectory):

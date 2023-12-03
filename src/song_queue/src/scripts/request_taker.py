@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import rospy
-from song_queue.srv import SongRequest #TODO: THIS DOESNT WORK
+from song_queue.srv import NewSongRequest #TODO: THIS DOESNT WORK
 from std_msgs.msg import String
 from song_queue.msg import AvailableArTags
 import rospkg
@@ -14,7 +14,7 @@ def update_available_tags(msg):
 
 def main():
     rospy.wait_for_service('song_requests_channel')
-    song_requests_channel = rospy.ServiceProxy('song_requests_channel', SongRequest)
+    song_requests_channel = rospy.ServiceProxy('song_requests_channel', NewSongRequest)
 
     while not rospy.is_shutdown():
         # see available ar tags

@@ -6,23 +6,29 @@ import rospkg
 from song_queue.srv import SongEnding
 from song_queue.srv import NewSongRequest
 from spotify_api import add_song_to_queue
+from sawyer_full_stack.scripts import pick_and_place
 
 class DecisionMaker:
-    def __init__(self, tags):
+    def __init__(self, tags, prev_ar_tag = -1):
         self.available_tags = tags
         self.taken_tags = []
         self.visible_tags = tags
+        self.queue = []
+        self.prev_ar_tag = prev_ar_tag
     #Callback for when song is added to Spotify queue
     def handle_change_song(self, req):
         #TODO: fix this
         if len(queue) > 0:
             ar_tag, song = queue.pop(0)
-            add_song_to_queue(song) # should we publish the ar tag we chose so it can be available?
+            add_song_to_queue(song) 
             self.taken_tags.remove(ar_tag)
             self.available_tags.append(ar_tag)
+            pick_and_place(ar_tag, self.prev_ar_tag)
+            self.prev_ar_tag = ar_tag
+
         else:
             for i in range(len(queue)):
-                if queue[i][0] = msg.ar_tag:
+                if queue[i][0] == msg.ar_tag:
                     ar_tag, song = queue.pop(0)
                     add_song_to_queue(song)
                     return
@@ -41,5 +47,7 @@ class DecisionMaker:
 
 if __name__ == "__main__":
     try:
-        DecisionMaker([15, 17])
-    except rospy.ROSInterruptException: pass
+        DecisionMaker([11], 9)
+    except rospy.ROSInterruptException as e:
+        print(e)
+        pass

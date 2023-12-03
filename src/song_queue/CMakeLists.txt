@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   std_msgs
   message_generation
+  sawyer_full_stack
 )
 
 ## System dependencies are found with CMake's conventions
@@ -50,14 +51,14 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
 FILES
   SongRequest.msg
-#   Message2.msg
+  AvailableArTags.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
-FILES
-NewSongRequest.srv
-SongEnding.srv
+  FILES
+  NewSongRequest.srv
+  SongEnding.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -105,7 +106,7 @@ std_msgs
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES song_queue
-  CATKIN_DEPENDS rospy std_msgs message_runtime
+  CATKIN_DEPENDS rospy std_msgs message_runtime sawyer_full_stack
 #  DEPENDS system_lib
 )
 

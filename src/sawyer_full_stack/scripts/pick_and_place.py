@@ -178,7 +178,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
 
     # Uses MoveIt! to execute the trajectory.
     print("opening right gripper...")
-    right_gripper.close()
+    right_gripper.open()
     planner.execute_plan(robot_trajectory)
 
     # Adjusting to get closer to the cube
@@ -188,7 +188,7 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     planner.execute_plan(robot_trajectory)
     rospy.sleep(1.0)
     # Grab the cube
-    right_gripper.open()
+    right_gripper.close()
 
     tuck()
 
@@ -200,11 +200,11 @@ def pick_and_place(marker, prev_marker, task='line', rate=200, timeout=None, num
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
     # Place the cube
-    right_gripper.close()
+    right_gripper.open()
 
     print("finished...")
 
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    pick_and_place(15, 17)
+    pick_and_place(11, 9)
