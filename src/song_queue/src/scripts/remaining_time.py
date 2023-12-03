@@ -20,12 +20,17 @@ token = None
 current_song = ""
 
 def main():
-    rospy.wait_for_service('change_song')
-    change_song = rospy.ServiceProxy('change_song', SongEnding)
+    print("hi")
+    rospy.wait_for_service('/change_song_service')
+    change_song = rospy.ServiceProxy('/change_song_service', SongEnding)
+    print("here")
+    current_song=""
 
     while not rospy.is_shutdown():
         time_left, uri = get_currently_playing()
+        print(time_left)
         if current_song != uri and time_left < 30000: # we haven't sent the message yet
+            print("song ending soon!")
             current_song = uri
             resp = change_song(time_left)
             
@@ -68,11 +73,11 @@ def get_currently_playing():
     print(response)
     response_json = response.json()
     progress_ms, duration_ms, url = response_json["progress_ms"], response_json["item"]["duration_ms"], response_json["item"]["external_urls"]["spotify"]
-    uri = response_json["item"["uri"]]
+    uri = response_json["item"]["uri"]
     return duration_ms - progress_ms, uri
 
 if __name__ == "__main__":
     get_currently_playing()
-    #rospy.init_node('remaining_time', anonymous=True)
-    #main()
+    rospy.init_node('remaining_time', anonymous=True)
+    main()
 

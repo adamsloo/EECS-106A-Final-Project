@@ -59,6 +59,7 @@ add_service_files(
   FILES
   NewSongRequest.srv
   SongEnding.srv
+  MoveCubeRequest.srv
 )
 
 ## Generate actions in the 'action' folder
