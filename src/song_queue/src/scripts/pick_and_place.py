@@ -38,201 +38,213 @@ from intera_interface import gripper as robot_gripper
 import time
 
 from song_queue.srv import MoveCubeRequest
+from queue import Queue
+class PickAndPlaceNode:
 
-def tuck():
+    def tuck():
 
-    try:
-        limb = Limb()
-        traj = MotionTrajectory(limb = limb)
+        try:
+            limb = Limb()
+            traj = MotionTrajectory(limb = limb)
 
-        wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=0.5,
-                                         max_joint_accel=0.5)
-        waypoint = MotionWaypoint(options = wpt_opts.to_msg(), limb = limb)
+            wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=0.5,
+                                            max_joint_accel=0.5)
+            waypoint = MotionWaypoint(options = wpt_opts.to_msg(), limb = limb)
 
-        joint_angles = limb.joint_ordered_angles()
+            joint_angles = limb.joint_ordered_angles()
 
-        waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
-        traj.append_waypoint(waypoint.to_msg())
+            waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
+            traj.append_waypoint(waypoint.to_msg())
 
-        waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
-        traj.append_waypoint(waypoint.to_msg())
+            waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
+            traj.append_waypoint(waypoint.to_msg())
 
-        result = traj.send_trajectory(timeout=None)
-        if result is None:
-            rospy.logerr('Trajectory FAILED to send')
-            return
+            result = traj.send_trajectory(timeout=None)
+            if result is None:
+                rospy.logerr('Trajectory FAILED to send')
+                return
 
-        if result.result:
-            rospy.loginfo('Motion controller successfully finished the trajectory!')
+            if result.result:
+                rospy.loginfo('Motion controller successfully finished the trajectory!')
+            else:
+                rospy.logerr('Motion controller failed to complete the trajectory with error %s',
+                            result.errorId)
+        except rospy.ROSInterruptException:
+            rospy.logerr('Keyboard interrupt detected from the user. Exiting before trajectory completion.')
+
+    def lookup_tag(tag_number1, tag_number2):
+        """
+        Given an AR tag number, this returns the position of the AR tag in the robot's base frame.
+        You can use either this function or try starting the scripts/tag_pub.py script.  More info
+        about that script is in that file.  
+
+        Parameters
+        ----------
+        tag_number : int
+
+        Returns
+        -------
+        3x' :obj:`numpy.ndarray`
+            tag position
+        """
+
+        # TODO: initialize a tf buffer and listener as in lab 3
+        tfBuffer = tf2_ros.Buffer()
+        tfListener = tf2_ros.TransformListener(tfBuffer)
+        
+        try:
+            # TODO: lookup the transform and save it in trans
+            trans1 = tfBuffer.lookup_transform("base", f"ar_marker_{tag_number1}", rospy.Time(0), rospy.Duration(10.0))
+            trans2 = tfBuffer.lookup_transform("base", f"ar_marker_{tag_number2}", rospy.Time(0), rospy.Duration(10.0))
+            # The rospy.Time(0) is the latest available 
+            # The rospy.Duration(10.0) is the amount of time to wait for the transform to be available before throwing an exception
+        except Exception as e:
+            print(e)
+            print("Retrying ...")
+
+        tag_pos1 = [getattr(trans1.transform.translation, dim) for dim in ('x', 'y', 'z')]
+        tag_pos2 = [getattr(trans2.transform.translation, dim) for dim in ('x', 'y', 'z')]
+        return np.array(tag_pos1), np.array(tag_pos2)
+
+    def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=0.005, y_offset=0.0029, x_offset = 0.001 ):
+        """
+        Returns an appropriate robot trajectory for the specified task.  You should 
+        be implementing the path functions in paths.py and call them here
+        
+        Parameters
+        ----------
+        task : string
+            name of the task.  Options: line, circle, square
+        tag_pos : 3x' :obj:`numpy.ndarray`
+            
+        Returns
+        -------
+        :obj:`moveit_msgs.msg.RobotTrajectory`
+        """
+        x_offset = 0
+        y_offset = 0
+
+        tfBuffer = tf2_ros.Buffer()
+        listener = tf2_ros.TransformListener(tfBuffer)
+
+        try:
+            trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
+        except Exception as e:
+            print(e)
+
+        current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
+        print("Current Position:", current_position)
+        #print("TASK ", type(task))
+
+        if task == 'line':
+            print("line")
+            target_pos = tag_pos
+            target_pos[2] = z + 0.4 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
+            target_pos[1] += y_offset
+            print("TARGET POSITION:", target_pos)
+            trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+        elif task == 'adjustment':
+            print("adjustment")
+            target_pos = current_position
+            target_pos[2] = z
+            print("TARGET POSITION ADJUSTMENT:", target_pos)
+            trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+        elif task == 'queue':
+            print("queue")
+            target_pos = tag_pos
+            target_pos[2] = z
+            target_pos[1] -= 0.08 + y_offset
+            print("TARGET POSITION:", target_pos)
+            trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+            
         else:
-            rospy.logerr('Motion controller failed to complete the trajectory with error %s',
-                         result.errorId)
-    except rospy.ROSInterruptException:
-        rospy.logerr('Keyboard interrupt detected from the user. Exiting before trajectory completion.')
-
-def lookup_tag(tag_number1, tag_number2):
-    """
-    Given an AR tag number, this returns the position of the AR tag in the robot's base frame.
-    You can use either this function or try starting the scripts/tag_pub.py script.  More info
-    about that script is in that file.  
-
-    Parameters
-    ----------
-    tag_number : int
-
-    Returns
-    -------
-    3x' :obj:`numpy.ndarray`
-        tag position
-    """
-
-    # TODO: initialize a tf buffer and listener as in lab 3
-    tfBuffer = tf2_ros.Buffer()
-    tfListener = tf2_ros.TransformListener(tfBuffer)
-    
-    try:
-        # TODO: lookup the transform and save it in trans
-        trans1 = tfBuffer.lookup_transform("base", f"ar_marker_{tag_number1}", rospy.Time(0), rospy.Duration(10.0))
-        trans2 = tfBuffer.lookup_transform("base", f"ar_marker_{tag_number2}", rospy.Time(0), rospy.Duration(10.0))
-        # The rospy.Time(0) is the latest available 
-        # The rospy.Duration(10.0) is the amount of time to wait for the transform to be available before throwing an exception
-    except Exception as e:
-        print(e)
-        print("Retrying ...")
-
-    tag_pos1 = [getattr(trans1.transform.translation, dim) for dim in ('x', 'y', 'z')]
-    tag_pos2 = [getattr(trans2.transform.translation, dim) for dim in ('x', 'y', 'z')]
-    return np.array(tag_pos1), np.array(tag_pos2)
-
-def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=0.005, y_offset=0.0029, x_offset = 0.001 ):
-    """
-    Returns an appropriate robot trajectory for the specified task.  You should 
-    be implementing the path functions in paths.py and call them here
-    
-    Parameters
-    ----------
-    task : string
-        name of the task.  Options: line, circle, square
-    tag_pos : 3x' :obj:`numpy.ndarray`
+            raise ValueError('task {} not recognized'.format(task))
         
-    Returns
-    -------
-    :obj:`moveit_msgs.msg.RobotTrajectory`
-    """
-    x_offset = 0
-    y_offset = 0
+        path = MotionPath(limb, kin, ik_solver, trajectory)
+        return path.to_robot_trajectory(num_way, True)
 
-    tfBuffer = tf2_ros.Buffer()
-    listener = tf2_ros.TransformListener(tfBuffer)
+    def __init__(self):
+        self.queue = Queue(10)
+        rospy.init_node('moveit_node')
+        move_cube_service = rospy.Service('/move_cube', MoveCubeRequest, self.handle_move_cube_request)
+        while not rospy.is_shutdown():
+            if not queue.is_empty():
+                ar_tag_to_move, prev_ar_tag = queue.get()
+                move_cube(ar_tag_to_move, prev_ar_tag)
 
-    try:
-        trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
-    except Exception as e:
-        print(e)
 
-    current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
-    print("Current Position:", current_position)
-    #print("TASK ", type(task))
+    def handle_move_cube_request(self, request):
+        print("in handle move cube request")
+        self.Queue.put((request.ar_tag, request.prev_ar_tag))
+        return True
 
-    if task == 'line':
-        print("line")
-        target_pos = tag_pos
-        target_pos[2] = z + 0.4 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
-        target_pos[1] += y_offset
-        print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
-    elif task == 'adjustment':
-        print("adjustment")
-        target_pos = current_position
-        target_pos[2] = z
-        print("TARGET POSITION ADJUSTMENT:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
-    elif task == 'queue':
-        print("queue")
-        target_pos = tag_pos
-        target_pos[2] = z
-        target_pos[1] -= 0.08 + y_offset
-        print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+
+    def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
+        # Marker should be a single ar marker string
+        tuck()
+        # Set up the right gripper
+        right_gripper = robot_gripper.Gripper('right_gripper')
+
+        # Calibrate the gripper (other commands won't work unless you do this first)
+        print('Calibrating...')
+        right_gripper.calibrate()
+        rospy.sleep(1.0)
         
-    else:
-        raise ValueError('task {} not recognized'.format(task))
-    
-    path = MotionPath(limb, kin, ik_solver, trajectory)
-    return path.to_robot_trajectory(num_way, True)
+        # this is used for sending commands (velocity, torque, etc) to the robot
+        ik_solver = IK("base", "right_gripper_tip")
+        limb = intera_interface.Limb("right")
+        kin = sawyer_kinematics("right")
 
-def main():
-    rospy.init_node('moveit_node')
-    move_cube_service = rospy.Service('/move_cube', MoveCubeRequest, handle_move_cube_request)
-    rospy.spin()
+        # Lookup the AR tag position.
+        tag_pos1, tag_pos2 = lookup_tag(marker, prev_marker)
+        
+        # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
+        # of the trajectory
+        planner = PathPlanner('right_arm')
+        
+        # ####### PICK ########
+        robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task)
+        # Move to the trajectory start position
+        plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+        planner.execute_plan(plan[1])
 
-def handle_move_cube_request(request):
-    print("in handle move cube request")
-    move_cube(request.ar_tag, request.prev_ar_tag)
-    return True
+        # try:
+        #     input('Press <Enter> to execute the trajectory using MOVEIT')
+        # except KeyboardInterrupt:
+        #     sys.exit()
 
+        # Uses MoveIt! to execute the trajectory.
+        print("opening right gripper...")
+        right_gripper.open()
+        planner.execute_plan(robot_trajectory)
 
-def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
-    # Marker should be a single ar marker string
-    tuck()
-    # Set up the right gripper
-    right_gripper = robot_gripper.Gripper('right_gripper')
+        # Adjusting to get closer to the cube
+        robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='adjustment')
+        plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+        planner.execute_plan(plan[1])
+        planner.execute_plan(robot_trajectory)
+        rospy.sleep(1.0)
+        # Grab the cube
+        right_gripper.close()
+        tuck()
 
-    # Calibrate the gripper (other commands won't work unless you do this first)
-    print('Calibrating...')
-    right_gripper.calibrate()
-    rospy.sleep(1.0)
-    
-    # this is used for sending commands (velocity, torque, etc) to the robot
-    ik_solver = IK("base", "right_gripper_tip")
-    limb = intera_interface.Limb("right")
-    kin = sawyer_kinematics("right")
+        ####### PLACE ########
+        print("placing next in queue...")
+        robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='queue')
+        plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+        planner.execute_plan(plan[1])
+        planner.execute_plan(robot_trajectory)
+        right_gripper.open()
 
-    # Lookup the AR tag position.
-    tag_pos1, tag_pos2 = lookup_tag(marker, prev_marker)
-    
-    # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
-    # of the trajectory
-    planner = PathPlanner('right_arm')
-    
-    # ####### PICK ########
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task)
-    # Move to the trajectory start position
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-
-    # try:
-    #     input('Press <Enter> to execute the trajectory using MOVEIT')
-    # except KeyboardInterrupt:
-    #     sys.exit()
-
-    # Uses MoveIt! to execute the trajectory.
-    print("opening right gripper...")
-    right_gripper.open()
-    planner.execute_plan(robot_trajectory)
-
-    # Adjusting to get closer to the cube
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='adjustment')
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-    planner.execute_plan(robot_trajectory)
-    rospy.sleep(1.0)
-    # Grab the cube
-    right_gripper.close()
-    tuck()
-
-    ####### PLACE ########
-    print("placing next in queue...")
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='queue')
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-    planner.execute_plan(robot_trajectory)
-    right_gripper.open()
-
-    print("finished...")
+        print("finished...")
 
 
 if __name__ == "__main__":
+    try:
+        pick_and_place = PickAndPlaceNode()
+        rospy.spin()
+    except rospy.ROSInterruptException:
+        pass
     # call pick from arg1 tag and place next to arg 2 tag
     main()
     # rospy.init_node('moveit_node')
