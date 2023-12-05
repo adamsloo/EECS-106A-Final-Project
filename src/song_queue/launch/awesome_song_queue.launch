@@ -1,0 +1,3 @@
+<node name="request_taker" pkg="song_queue" type="request_taker.py"></node>
+<node name="decision_maker" pkg="song_queue" type="decision_maker.py"></node>
+<node name="remaining_time" pkg="song_queue" type="remaining_time.py"></node>
