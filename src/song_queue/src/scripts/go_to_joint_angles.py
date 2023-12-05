@@ -54,29 +54,33 @@ def main():
         "--timeout", type=float, default=None,
         help="Max time in seconds to complete motion goal before returning. None is interpreted as an infinite timeout.")
     args = parser.parse_args(rospy.myargv()[1:])
+    print(args)
+
+    Namespace(accel_ratio=0.5, joint_angles=[0, -1, 0, 1.5, 0, -0.5, 1.7], speed_ratio=0.5, timeout=None)
+
 
     try:
         rospy.init_node('go_to_joint_angles_py')
         limb = Limb()
         traj = MotionTrajectory(limb = limb)
 
-        wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=args.speed_ratio,
-                                         max_joint_accel=args.accel_ratio)
+        wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=0.5,
+                                         max_joint_accel=0.5)
         waypoint = MotionWaypoint(options = wpt_opts.to_msg(), limb = limb)
 
         joint_angles = limb.joint_ordered_angles()
 
-        waypoint.set_joint_angles(joint_angles = joint_angles)
+        waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
         traj.append_waypoint(waypoint.to_msg())
 
         if len(args.joint_angles) != len(joint_angles):
             rospy.logerr('The number of joint_angles must be %d', len(joint_angles))
             return None
 
-        waypoint.set_joint_angles(joint_angles = args.joint_angles)
+        waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7])
         traj.append_waypoint(waypoint.to_msg())
 
-        result = traj.send_trajectory(timeout=args.timeout)
+        result = traj.send_trajectory(timeout=None)
         if result is None:
             rospy.logerr('Trajectory FAILED to send')
             return
