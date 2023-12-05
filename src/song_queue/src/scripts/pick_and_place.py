@@ -31,24 +31,25 @@ from intera_interface import gripper as robot_gripper
 import time
 
 from song_queue.srv import MoveCubeRequest
+from go_to_joint_angles import main as tuck
 
 
-def tuck():
-    """
-    Tuck the robot arm to the start position. Use with caution
-    """
-    #if input('Would you like to tuck the arm? (y/n): ') == 'y':
-    rospack = rospkg.RosPack()
-    path = rospack.get_path('sawyer_full_stack')
-    launch_path = path + '/launch/custom_sawyer_tuck.launch'
-    uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-    roslaunch.configure_logging(uuid)
-    launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
-    #print('tuck start ####################################')
-    launch.start()
-        #print('tuck start finished ####################################')
-    # else:
-    #     print('Canceled. Not tucking the arm.')
+# def tuck():
+#     """
+#     Tuck the robot arm to the start position. Use with caution
+#     """
+#     #if input('Would you like to tuck the arm? (y/n): ') == 'y':
+#     rospack = rospkg.RosPack()
+#     path = rospack.get_path('sawyer_full_stack')
+#     launch_path = path + '/launch/custom_sawyer_tuck.launch'
+#     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+#     roslaunch.configure_logging(uuid)
+#     launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
+#     #print('tuck start ####################################')
+#     launch.start()
+#         #print('tuck start finished ####################################')
+#     # else:
+#     #     print('Canceled. Not tucking the arm.')
 
 def lookup_tag(tag_number):
     """
@@ -82,7 +83,7 @@ def lookup_tag(tag_number):
     tag_pos = [getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')]
     return np.array(tag_pos)
 
-def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=-0.003, y_offset=0.0029, x_offset = 0.001 ):
+def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=0.040, y_offset=0.0029, x_offset = 0.001 ):
     """
     Returns an appropriate robot trajectory for the specified task.  You should 
     be implementing the path functions in paths.py and call them here
@@ -134,6 +135,22 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, z=-0.003, y_off
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
         
     else:
+# def tuck():
+#     """
+#     Tuck the robot arm to the start position. Use with caution
+#     """
+#     #if input('Would you like to tuck the arm? (y/n): ') == 'y':
+#     rospack = rospkg.RosPack()
+#     path = rospack.get_path('sawyer_full_stack')
+#     launch_path = path + '/launch/custom_sawyer_tuck.launch'
+#     uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
+#     roslaunch.configure_logging(uuid)
+#     launch = roslaunch.parent.ROSLaunchParent(uuid, [launch_path])
+#     #print('tuck start ####################################')
+#     launch.start()
+#         #print('tuck start finished ####################################')
+#     # else:
+#     #     print('Canceled. Not tucking the arm.')
         raise ValueError('task {} not recognized'.format(task))
     
     path = MotionPath(limb, kin, ik_solver, trajectory)
@@ -153,6 +170,7 @@ def handle_move_cube_request(request):
 def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
     # Marker should be a single ar marker string
     tuck()
+    return
     # Set up the right gripper
     right_gripper = robot_gripper.Gripper('right_gripper')
 
@@ -216,6 +234,6 @@ def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    main()
-
-    # move_cube(9,11)
+    # main()
+    rospy.init_node('moveit_node')
+    move_cube(9,11)
