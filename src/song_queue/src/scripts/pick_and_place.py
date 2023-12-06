@@ -71,6 +71,33 @@ def tuck():
     except rospy.ROSInterruptException:
         rospy.logerr('Keyboard interrupt detected from the user. Exiting before trajectory completion.')
 
+def audience_tuck():
+    try:
+        limb = Limb()
+        traj = MotionTrajectory(limb = limb)
+
+        wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=0.5,
+                                         max_joint_accel=0.5)
+        waypoint = MotionWaypoint(options = wpt_opts.to_msg(), limb = limb)
+
+        joint_angles = limb.joint_ordered_angles()
+
+        waypoint.set_joint_angles(joint_angles = [0, -1, 0, 1.5, 0, -2, 1.7])
+        traj.append_waypoint(waypoint.to_msg())
+
+        result = traj.send_trajectory(timeout=None)
+        if result is None:
+            rospy.logerr('Trajectory FAILED to send')
+            return
+
+        if result.result:
+            rospy.loginfo('Motion controller successfully finished the trajectory!')
+        else:
+            rospy.logerr('Motion controller failed to complete the trajectory with error %s',
+                         result.errorId)
+    except rospy.ROSInterruptException:
+        rospy.logerr('Keyboard interrupt detected from the user. Exiting before trajectory completion.')
+
 def lookup_tag(tag_number1, tag_number2):
     """
     Given an AR tag number, this returns the position of the AR tag in the robot's base frame.
@@ -255,6 +282,8 @@ def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=
     right_gripper.open()
 
     print("finished...")
+    print("tucking to see audience")
+    audience_tuck()
 
 
 if __name__ == "__main__":

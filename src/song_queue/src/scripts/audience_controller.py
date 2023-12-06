@@ -12,19 +12,22 @@ from std_msgs.msg import Int64
 # Node that listens in to head ar tracker and commands script to pick and place correct node 
 class AudienceControllerNode:
     def __init__(self):
-        rospy.init_node('audience_controller')
-        # Subscribe to the topic that publishes ar pose data
-        rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
         self.queue = deque(maxlen=20) #queue storing deltas of marker position
         self.x_delta_sum = 0
         self.y_delta_sum = 0
         self.queue_max = 20
         self.prev_position = None
 
-        self.x_bottom_thresh = 3
-        self.y_bottom_threshold = 3
-        self.x_top_thresh = 5
-        self.y_bottom_threshold = 5
+        self.x_bottom_thresh = 0.5
+        self.y_bottom_threshold = 0.5
+        self.x_top_thresh = 2
+        self.y_bottom_threshold = 2
+
+        self.huge_number = 200
+
+        rospy.init_node('audience_controller')
+        # Subscribe to the topic that publishes ar pose data
+        rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
 
     def ar_marker_callback(self, data):
         # Callback function to process incoming data from the topic
@@ -42,27 +45,29 @@ class AudienceControllerNode:
                 self.x_delta_sum += x_delta
                 self.y_delta_sum += y_delta
                 self.queue.append((x_delta, y_delta))  
-            if len(self.queue) == self.queue_max:
-                oldest_val = self.queue.popleft()
-                self.x_delta_sum -= oldest_val[0]
-                self.y_delta_sum -= oldest_val[1]
-                marker = data.markers[0]
-
-                print("x", self.x_delta_sum)
-                print("y", self.y_delta_sum)
+        # else we dont see ar tag
+        else:
+            x_delta = self.huge_number      # this way no condition will be triggered until
+            y_delta = self.huge_number      # this set is out of queue
+            self.x_delta_sum += x_delta
+            self.y_delta_sum += y_delta
+            self.queue.append((x_delta, y_delta))  
         
-                print(self.check_condition(x_delta_sum. y_delta_sum))
-    
+        # Clean up queue
+        if len(self.queue) == self.queue_max:
+            oldest_val = self.queue.popleft()
+            self.x_delta_sum -= oldest_val[0]
+            self.y_delta_sum -= oldest_val[1]
+            print("x", self.x_delta_sum)
+            print("y", self.y_delta_sum)
+            print(self.check_condition(self.x_delta_sum, self.y_delta_sum))
+
     def check_condition(self, x_d, y_d):
         if x_d > self.x_top_thresh and y_d < self.y_bottom_threshold:
             return "PLAY"
         elif x_d < self.x_bottom_thresh and y_d > self.y_top_threshold:
             return "PAUSE"
         
-
-
-
-
 
 if __name__ == '__main__':
     try:
