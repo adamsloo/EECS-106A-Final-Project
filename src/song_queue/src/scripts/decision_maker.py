@@ -60,7 +60,7 @@ if __name__ == "__main__":
         rospy.init_node('decision_maker')
         
 
-        d = DecisionMaker([11], 16)
+        d = DecisionMaker([11, 17], 16)
         d.work()
     except rospy.ROSInterruptException as e:
         print(e)

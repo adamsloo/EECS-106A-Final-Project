@@ -6,7 +6,7 @@ from std_msgs.msg import String
 from song_queue.msg import AvailableArTags
 import rospkg
 
-available_tags = [16, 11]
+available_tags = [17, 11]
 
 def update_available_tags(msg):
     global available_tags
