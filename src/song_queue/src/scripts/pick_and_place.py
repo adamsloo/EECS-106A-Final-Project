@@ -158,7 +158,7 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=-0.00
         target_pos[2] = z + 0.4 #linear path moves to a Z position above AR Tag. CHANGE THIS TO 0.4 IT IS SCARY!!!!!!!
         target_pos[1] += y_offset
         print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
     elif task == 'adjustment':
         print("adjustment")
         target_pos = current_position
@@ -169,10 +169,10 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=-0.00
         print("queue")
         print(tag_pos)
         target_pos = tag_pos
-        target_pos[2] = z
+        target_pos[2] = z + 0.4
         target_pos[1] -= 0.08 + y_offset
         print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
         global prev_ar_tag_position
         prev_ar_tag_position[ar_tag] = target_pos
         
@@ -246,6 +246,10 @@ def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=
     print("placing next in queue...")
     robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='queue', ar_tag=marker)
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+    planner.execute_plan(plan[1])
+    planner.execute_plan(robot_trajectory)
+
+    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='adjustment', ar_tag=marker)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
     right_gripper.open()
