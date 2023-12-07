@@ -20,6 +20,7 @@ class QueueProcessorNode:
 
         rospy.Subscriber('/add_to_queue', NewSongRequest, self.add_to_queue_callback)
         self.subscriber = rospy.Subscriber('/song_changing', bool, self.song_changing_callback)
+        self.queue_subscriber = rospy.Subscriber('/add_to_queue', NewSongRequest, self.add_to_queue_callback)
     
     def song_changing_callback(self, msg):
         # Callback function that stores the received message
@@ -27,7 +28,8 @@ class QueueProcessorNode:
 
     def add_to_queue_callback(self, data):
         rospy.loginfo('Adding to queue: %s', data.ar_tag, data.song)
-        self.queue.append([data.ar_tag, data.song])
+        self.queue = data.data
+        self.process_queue(self.queue)
 
     def process_queue(self):
         while not rospy.is_shutdown() and self.pause_process == 1:
