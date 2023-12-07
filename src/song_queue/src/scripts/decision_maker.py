@@ -9,6 +9,7 @@ from song_queue.srv import NewSongRequest
 from spotify_api import add_song_to_queue
 from pick_and_place import move_cube, move_cube_now_playing
 from song_queue.srv import MoveCubeRequest
+from remaining_time import get_currently_playing
 
 class DecisionMaker:
     def __init__(self, tags, prev_ar_tag = -1):
@@ -63,7 +64,10 @@ class DecisionMaker:
         return True
     
     def process_queue(self):
-        while not rospy.is_shutdown() and self.song_change_soon is False:
+        time_left, _ = get_currently_playing()
+        #while not rospy.is_shutdown() and self.song_change_soon is False:
+        start_time = time.time()
+        while time.time() - start_time < time_left - 30:
             if len(self.queue) > 0:
                 ar_tag, song = self.queue.pop(0)
                 add_song_to_queue(song) 
