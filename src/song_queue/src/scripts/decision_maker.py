@@ -55,6 +55,7 @@ class DecisionMaker:
         #             ar_tag, song = queue.pop(0)
         #             add_song_to_queue(song)
         return True
+    
     #Callback for when song is added to local queue (aka human adds ar tag: song pair)
     def handle_song_request(self, req):
         # pub = rospy.Publisher('/add_to_queue', NewSongRequest, queue_size=20)
