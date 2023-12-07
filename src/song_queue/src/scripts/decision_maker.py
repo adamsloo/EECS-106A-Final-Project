@@ -30,10 +30,14 @@ class DecisionMaker:
         print("SONG CHANGE")
         print(self.now_playing_queue)
         if len(self.now_playing_queue) > 0:
-            ar_tag, song = self.queue.pop(0)
+            ar_tag, song = self.now_playing_queue.pop(0)
             print("PUSHING CUBE")
-            moving = self.move_cube(int(ar_tag), -1)
+            try:
+                moving = self.move_cube(int(ar_tag), -1)
+            except:
+                print("error handle change")
         self.song_change_soon = False
+        process_queue()
 
         # #TODO: fix this
         # if len(self.queue) > 0:
@@ -67,15 +71,22 @@ class DecisionMaker:
         time_left, _ = get_currently_playing()
         #while not rospy.is_shutdown() and self.song_change_soon is False:
         start_time = time.time()
-        while time.time() - start_time < time_left - 30:
-            if len(self.queue) > 0:
-                ar_tag, song = self.queue.pop(0)
-                add_song_to_queue(song) 
-                # self.taken_tags.remove(ar_tag)
-                # self.available_tags.append(ar_tag)
-                print("MOVING CUBE")
+        while len(self.queue) > 0:
+            if time.time() - start_time > time_left - 30:
+                print("we don't have enough time")
+                return False
+            print("DA QUEUE")
+            print(self.queue)
+            ar_tag, song = self.queue.pop(0)
+            add_song_to_queue(song) 
+            # self.taken_tags.remove(ar_tag)
+            # self.available_tags.append(ar_tag)
+            print("MOVING CUBE")
+            try:
                 moving = self.move_cube(int(ar_tag), int(self.prev_ar_tag))
-                self.prev_ar_tag = ar_tag   
+            except:
+                print("error u already knowww")
+            self.prev_ar_tag = ar_tag   
         return True
 
     def work(self):

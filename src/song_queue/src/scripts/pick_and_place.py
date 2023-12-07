@@ -40,6 +40,7 @@ import time
 from song_queue.srv import MoveCubeRequest
 
 prev_ar_tag_position = {}
+joint_angles = [0, -1, 0, 1.5, 0, -0.5, 1.7]
 
 def tuck():
     try:
@@ -228,7 +229,7 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=-0.00
     path = MotionPath(limb, kin, ik_solver, trajectory)
     return path.to_robot_trajectory(num_way, True)
 
-def get_push_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=0.000, y_offset=0.4, x_offset = 0.001):
+def get_push_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=0.000, y_offset=0.2, x_offset = 0.001):
     # y offset represents how far away from the cube we start off as
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
@@ -245,9 +246,9 @@ def get_push_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=
         print("start")
         target_pos = tag_pos
         target_pos[2] = z + 0.4
-        target_pos[1] += y_offset
+        target_pos[0] += y_offset
         print("TARGET POSITION:", target_pos)
-        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=20)
     elif task == 'adjustment':
         print("adjustment")
         target_pos = current_position
@@ -259,7 +260,7 @@ def get_push_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=
         print(tag_pos)
         target_pos = tag_pos
         target_pos[2] = z
-        target_pos[1] += -2 * y_offset
+        target_pos[0] += -2 * y_offset
         print("TARGET POSITION:", target_pos)
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
     else:
@@ -273,6 +274,11 @@ def main():
     move_cube_service = rospy.Service('/move_cube', MoveCubeRequest, handle_move_cube_request)
     rospy.spin()
 
+def joint_state_callback(data):
+    global joint_angles
+    joint_angles = data.position[1:8]
+
+
 def handle_move_cube_request(request):
     print("in handle move cube request")
     if request.prev_ar_tag == -1:
@@ -283,47 +289,87 @@ def handle_move_cube_request(request):
     return True
 
 def move_cube_now_playing(marker, task='line', rate=200, timeout=None, num_way=50):
+    global joint_angles
+    print('Calibrating...')
+    right_gripper = robot_gripper.Gripper('right_gripper')
+    right_gripper.calibrate()
+    
     close_tuck()
 
     # this is used for sending commands (velocity, torque, etc) to the robot
-    #ik_solver = IK("base", "right_gripper_tip")
-    ik_solver = IK("base", "stp_022312TP99620_tip_1")
+    ik_solver = IK("base", "right_gripper_tip")
+    #ik_solver = IK("base", "stp_022312TP99620_tip_1")
     limb = intera_interface.Limb("right")
     kin = sawyer_kinematics("right")
+    right_gripper.close()
 
     # Lookup the AR tag position of currently playing cube.
     tag_pos1, _ = lookup_tag(marker, marker)
-    tuck()
     # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
     # of the trajectory
     planner = PathPlanner('right_arm')
-
+    print("TAG", tag_pos1)
     
+    tuck()
     # ####### POSITION ########
     # Move to the push start position behind cube
     robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task = "start", ar_tag=marker)
-    print("trajectory", robot_trajectory)
+    #print("trajectory", robot_trajectory)
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
+    rospy.sleep(1)
 
     # Moving downwards
     robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task='adjustment', ar_tag=marker)
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
+    rospy.sleep(0.5)
    
     ####### PUSH ########
     # Pushing cube forward
-    print("pushing now playing forward...")
-    robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task='end', ar_tag=marker)
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-    planner.execute_plan(robot_trajectory)
+    # print(joint_angles)
+    # joint_angles[6] -= 0.4
+    try:
+        limb = Limb()
+        traj = MotionTrajectory(limb = limb)
+
+        wpt_opts = MotionWaypointOptions(max_joint_speed_ratio=0.5,
+                                         max_joint_accel=0.5)
+        waypoint = MotionWaypoint(options = wpt_opts.to_msg(), limb = limb)
+
+        joint_angles = limb.joint_ordered_angles()
+        print("before", joint_angles)
+        joint_angles[5] += 0.4
+
+        print(joint_angles)
+        waypoint.set_joint_angles(joint_angles=joint_angles)
+        traj.append_waypoint(waypoint.to_msg())
+
+
+        result = traj.send_trajectory(timeout=None)
+        if result is None:
+            rospy.logerr('Trajectory FAILED to send')
+            return
+
+        if result.result:
+            rospy.loginfo('Motion controller successfully finished the trajectory!')
+        else:
+            rospy.logerr('Motion controller failed to complete the trajectory with error %s',
+                         result.errorId)
+        print('rotatinggggg')
+    except rospy.ROSInterruptException:
+        rospy.logerr('Keyboard interrupt detected from the user. Exiting before trajectory completion.')
+    # print("pushing now playing forward...")
+    # robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task='end', ar_tag=marker)
+    # plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+    # planner.execute_plan(plan[1])
+    # planner.execute_plan(robot_trajectory)
 
     print("finished...")
     print("tucking to see audience")
-    audience_tuck()
+    #audience_tuck()
     return True
 
 def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
@@ -395,7 +441,7 @@ def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=
 
 if __name__ == "__main__":
     # call pick from arg1 tag and place next to arg 2 tag
-    #main()
-    rospy.init_node('moveit_node')
-    move_cube_now_playing(16)
+    main()
+    # rospy.init_node('moveit_node')
+    # move_cube(17, 11)
     # move_cube(9,11)
