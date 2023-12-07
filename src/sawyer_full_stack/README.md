@@ -25,3 +25,7 @@ rosrun song_queue request_taker.py
 rosrun song_queue decision_maker.py
 rosrun song_queue pick_and_place.py
 rosrun song_queue audience_controller.py
+
+cd Desktop
+cd EECS-106A-Final-Project
+source devel/setup.bash
