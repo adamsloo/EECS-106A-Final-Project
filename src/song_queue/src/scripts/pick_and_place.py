@@ -193,7 +193,46 @@ def get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=-0.00
         trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
         global prev_ar_tag_position
         prev_ar_tag_position[ar_tag] = target_pos
-        
+    else:
+        raise ValueError('task {} not recognized'.format(task))
+    
+    path = MotionPath(limb, kin, ik_solver, trajectory)
+    return path.to_robot_trajectory(num_way, True)
+
+def get_push_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag, z=0.000, y_offset=0.4, x_offset = 0.001):
+    # y offset represents how far away from the cube we start off as
+    tfBuffer = tf2_ros.Buffer()
+    listener = tf2_ros.TransformListener(tfBuffer)
+
+    try:
+        trans = tfBuffer.lookup_transform('base', 'right_hand', rospy.Time(0), rospy.Duration(10.0))
+    except Exception as e:
+        print(e)
+
+    current_position = np.array([getattr(trans.transform.translation, dim) for dim in ('x', 'y', 'z')])
+    print("Current Position:", current_position)
+
+    if task == 'start':
+        print("start")
+        target_pos = tag_pos
+        target_pos[2] = z + 0.4
+        target_pos[1] += y_offset
+        print("TARGET POSITION:", target_pos)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
+    elif task == 'adjustment':
+        print("adjustment")
+        target_pos = current_position
+        target_pos[2] = z
+        print("TARGET POSITION ADJUSTMENT:", target_pos)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=3)
+    elif task == 'end':
+        print("end")
+        print(tag_pos)
+        target_pos = tag_pos
+        target_pos[2] = z
+        target_pos[1] += -2 * y_offset
+        print("TARGET POSITION:", target_pos)
+        trajectory = LinearTrajectory(start_position=current_position, goal_position=target_pos, total_time=4)
     else:
         raise ValueError('task {} not recognized'.format(task))
     
@@ -207,73 +246,53 @@ def main():
 
 def handle_move_cube_request(request):
     print("in handle move cube request")
-    move_cube(request.ar_tag, request.prev_ar_tag)
+    if request.prev_ar_tag == -1:
+        move_cube_now_playing(request.ar_tag)
+    else:
+        move_cube(request.ar_tag, request.prev_ar_tag)
+    
     return True
 
 def move_cube_now_playing(marker, task='line', rate=200, timeout=None, num_way=50):
-    # Marker should be a single ar marker string
     tuck()
-    # Set up the right gripper
-    right_gripper = robot_gripper.Gripper('right_gripper')
 
-    # Calibrate the gripper (other commands won't work unless you do this first)
-    print('Calibrating...')
-    right_gripper.calibrate()
-    rospy.sleep(1.0)
-    
     # this is used for sending commands (velocity, torque, etc) to the robot
     ik_solver = IK("base", "right_gripper_tip")
     limb = intera_interface.Limb("right")
     kin = sawyer_kinematics("right")
 
-    # Lookup the AR tag position.
-    tag_pos1, tag_pos2 = lookup_tag(marker, prev_marker)
+    # Lookup the AR tag position of currently playing cube.
+    tag_pos1 = lookup_tag(marker)
     
     # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
     # of the trajectory
     planner = PathPlanner('right_arm')
     
-    # ####### PICK ########
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task, ar_tag=marker)
-    # Move to the trajectory start position
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-
-    # try:
-    #     input('Press <Enter> to execute the trajectory using MOVEIT')
-    # except KeyboardInterrupt:
-    #     sys.exit()
-
-    # Uses MoveIt! to execute the trajectory.
-    print("opening right gripper...")
-    right_gripper.open()
-    planner.execute_plan(robot_trajectory)
-
-    # Adjusting to get closer to the cube
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='adjustment', ar_tag=marker)
-    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
-    planner.execute_plan(plan[1])
-    planner.execute_plan(robot_trajectory)
-    #rospy.sleep(1.0)
-    # Grab the cube
-    right_gripper.close()
-    tuck()
-
-    ####### PLACE ########
-    print("placing next in queue...")
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='queue', ar_tag=marker)
+    # ####### POSITION ########
+    # Move to the push start position behind cube
+    robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task = "start", ar_tag=marker)
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
 
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos2, num_way, task='adjustment', ar_tag=marker)
+    # Moving downwards
+    robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task='adjustment', ar_tag=marker)
+    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])
     planner.execute_plan(robot_trajectory)
-    right_gripper.open()
+   
+    ####### PUSH ########
+    # Pushing cube forward
+    print("pushing now playing forward...")
+    robot_trajectory = get_push_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task='end', ar_tag=marker)
+    plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
+    planner.execute_plan(plan[1])
+    planner.execute_plan(robot_trajectory)
 
     print("finished...")
     print("tucking to see audience")
     audience_tuck()
+    return True
 
 def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=50):
     # Marker should be a single ar marker string
@@ -339,6 +358,7 @@ def move_cube(marker, prev_marker, task='line', rate=200, timeout=None, num_way=
     print("finished...")
     print("tucking to see audience")
     audience_tuck()
+    return True
 
 
 if __name__ == "__main__":
