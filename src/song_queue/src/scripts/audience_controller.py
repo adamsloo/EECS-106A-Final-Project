@@ -30,6 +30,26 @@ class AudienceControllerNode:
         rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
 
     def ar_marker_callback(self, data):
+        if len(data.markers) > 0:
+            if self.prev_position is None:
+                marker = data.markers[0]
+                self.prev_position = marker.pose.pose.position
+            else:
+                marker = data.markers[0]
+                cur_val = marker.pose.pose.position
+                self.queue_x.append(cur_val.x)  
+                self.queue_y.append(cur_val.y)  
+        # else we dont see ar tag
+        else:
+            self.queue_x.append(10000000)  
+            self.queue_y.append(10000000)  
+        
+        # Clean up queue
+        if len(self.queue) == self.queue_max:
+            self.queue.popleft()
+            print(self.check_condition(self.x_queue, self.y_queue))
+
+    def ar_marker_callback2(self, data):
         # Callback function to process incoming data from the topic
         # self.seen_markers = set([int(marker.id) for marker in data.markers] ) # set of currently seen markers
         # self.handle_queue_audience_song()
@@ -63,10 +83,21 @@ class AudienceControllerNode:
             print(self.check_condition(self.x_delta_sum, self.y_delta_sum))
 
     def check_condition(self, x_d, y_d):
+        x_condition = max(x_d) - min(x_d) > 50 and max(x_d) - min(x_d) < 900
+        y_condition = max(y_d) - min(y_d) > 50 and max(y_d) - min(y_d) < 900
+        print(max(x_d) - min(x_d))
+        if x_condition and not y_condition:
+            return "x"
+        if y_condition and not x_condition:
+            return "y"
+
+    def check_condition2(self, x_d, y_d):
         if x_d > self.x_top_thresh and y_d < self.y_bottom_threshold:
             return "PLAY"
         elif x_d < self.x_bottom_thresh and y_d > self.y_top_threshold:
             return "PAUSE"
+        
+    
         
 
 if __name__ == '__main__':
