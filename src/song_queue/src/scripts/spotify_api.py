@@ -47,6 +47,27 @@ def refresh_the_token():
     else:
         print("ERROR! The response we got was: "+ str(response))
 
+def pause_song():
+    global token
+    if token == None:
+        refresh_the_token()
+    api_url = "https://api.spotify.com/v1/me/player/pause"
+    headers = {
+        'Authorization': "Bearer " + token,
+    }
+    response = requests.post(api_url, headers=headers)
+
+def play_song():
+    global token
+    if token == None:
+        refresh_the_token()
+    api_url = "https://api.spotify.com/v1/me/player/play"
+    headers = {
+        'Authorization': "Bearer " + token,
+    }
+    response = requests.post(api_url, headers=headers)
+
+
 def add_song_to_queue(song):
     global token
     if token == None:
