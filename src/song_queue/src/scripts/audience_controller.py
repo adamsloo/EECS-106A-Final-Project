@@ -6,6 +6,7 @@ import rospkg
 import roslaunch
 from collections import deque
 from ar_track_alvar_msgs.msg import AlvarMarkers
+from spotify_api import pause_song, play_song
 
 import rospy
 from std_msgs.msg import Int64
@@ -25,11 +26,17 @@ class AudienceControllerNode:
 
         self.huge_number = 200
 
+        self.queue_x = deque(maxlen=self.queue_max) 
+        self.queue_y = deque(maxlen=self.queue_max)
+
+        self.playing = True
+
         rospy.init_node('audience_controller')
         # Subscribe to the topic that publishes ar pose data
         rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
 
     def ar_marker_callback(self, data):
+        print(len(self.queue_x))
         if len(data.markers) > 0:
             if self.prev_position is None:
                 marker = data.markers[0]
@@ -41,61 +48,71 @@ class AudienceControllerNode:
                 self.queue_y.append(cur_val.y)  
         # else we dont see ar tag
         else:
-            self.queue_x.append(10000000)  
-            self.queue_y.append(10000000)  
+            pass
+            #do something?idk
         
         # Clean up queue
-        if len(self.queue) == self.queue_max:
-            self.queue.popleft()
-            print(self.check_condition(self.x_queue, self.y_queue))
+        if len(self.queue_x) == self.queue_max:
+            self.queue_x.popleft()
+            self.queue_y.popleft()
+            print(self.check_condition(self.queue_x, self.queue_y))
 
-    def ar_marker_callback2(self, data):
-        # Callback function to process incoming data from the topic
-        # self.seen_markers = set([int(marker.id) for marker in data.markers] ) # set of currently seen markers
-        # self.handle_queue_audience_song()
-        if len(data.markers) > 0:
-            if self.prev_position is None:
-                marker = data.markers[0]
-                self.prev_position = marker.pose.pose.position
-            else:
-                marker = data.markers[0]
-                cur_val = marker.pose.pose.position
-                x_delta = abs(cur_val.x - self.prev_position.x)
-                y_delta = abs(cur_val.y - self.prev_position.y)
-                self.x_delta_sum += x_delta
-                self.y_delta_sum += y_delta
-                self.queue.append((x_delta, y_delta))  
-        # else we dont see ar tag
-        else:
-            x_delta = self.huge_number      # this way no condition will be triggered until
-            y_delta = self.huge_number      # this set is out of queue
-            self.x_delta_sum += x_delta
-            self.y_delta_sum += y_delta
-            self.queue.append((x_delta, y_delta))  
+    # def ar_marker_callback2(self, data):
+    #     # Callback function to process incoming data from the topic
+    #     # self.seen_markers = set([int(marker.id) for marker in data.markers] ) # set of currently seen markers
+    #     # self.handle_queue_audience_song()
+    #     if len(data.markers) > 0:
+    #         if self.prev_position is None:
+    #             marker = data.markers[0]
+    #             self.prev_position = marker.pose.pose.position
+    #         else:
+    #             marker = data.markers[0]
+    #             cur_val = marker.pose.pose.position
+    #             x_delta = abs(cur_val.x - self.prev_position.x)
+    #             y_delta = abs(cur_val.y - self.prev_position.y)
+    #             self.x_delta_sum += x_delta
+    #             self.y_delta_sum += y_delta
+    #             self.queue.append((x_delta, y_delta))  
+    #     # else we dont see ar tag
+    #     else:
+    #         x_delta = self.huge_number      # this way no condition will be triggered until
+    #         y_delta = self.huge_number      # this set is out of queue
+    #         self.x_delta_sum += x_delta
+    #         self.y_delta_sum += y_delta
+    #         self.queue.append((x_delta, y_delta))  
         
-        # Clean up queue
-        if len(self.queue) == self.queue_max:
-            oldest_val = self.queue.popleft()
-            self.x_delta_sum -= oldest_val[0]
-            self.y_delta_sum -= oldest_val[1]
-            print("x", self.x_delta_sum)
-            print("y", self.y_delta_sum)
-            print(self.check_condition(self.x_delta_sum, self.y_delta_sum))
+    #     # Clean up queue
+    #     if len(self.queue) == self.queue_max:
+    #         oldest_val = self.queue.popleft()
+    #         self.x_delta_sum -= oldest_val[0]
+    #         self.y_delta_sum -= oldest_val[1]
+    #         print("x", self.x_delta_sum)
+    #         print("y", self.y_delta_sum)
+    #         print(self.check_condition(self.x_delta_sum, self.y_delta_sum))
 
     def check_condition(self, x_d, y_d):
-        x_condition = max(x_d) - min(x_d) > 50 and max(x_d) - min(x_d) < 900
-        y_condition = max(y_d) - min(y_d) > 50 and max(y_d) - min(y_d) < 900
+        x_condition = max(x_d) - min(x_d) > 0.1 
+        y_condition = max(y_d) - min(y_d) > 0.07
         print(max(x_d) - min(x_d))
+        print(max(y_d) - min(y_d))
+        print(x_condition)
+        print(y_condition)
         if x_condition and not y_condition:
+            if self.playing == True:
+                self.playing = False
+                pause_song()
             return "x"
         if y_condition and not x_condition:
+            if self.playing == False:
+                self.playing = True
+                play_song()
             return "y"
 
-    def check_condition2(self, x_d, y_d):
-        if x_d > self.x_top_thresh and y_d < self.y_bottom_threshold:
-            return "PLAY"
-        elif x_d < self.x_bottom_thresh and y_d > self.y_top_threshold:
-            return "PAUSE"
+    # def check_condition2(self, x_d, y_d):
+    #     if x_d > self.x_top_thresh and y_d < self.y_bottom_threshold:
+    #         return "PLAY"
+    #     elif x_d < self.x_bottom_thresh and y_d > self.y_top_threshold:
+    #         return "PAUSE"
         
     
         

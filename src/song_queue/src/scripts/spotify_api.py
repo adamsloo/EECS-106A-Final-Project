@@ -48,6 +48,7 @@ def refresh_the_token():
         print("ERROR! The response we got was: "+ str(response))
 
 def pause_song():
+    print("pausing in api")
     global token
     if token == None:
         refresh_the_token()
@@ -55,7 +56,9 @@ def pause_song():
     headers = {
         'Authorization': "Bearer " + token,
     }
-    response = requests.post(api_url, headers=headers)
+    response = requests.put(api_url, headers=headers)
+    print("response pause")
+    print(response)
 
 def play_song():
     global token
@@ -65,7 +68,7 @@ def play_song():
     headers = {
         'Authorization': "Bearer " + token,
     }
-    response = requests.post(api_url, headers=headers)
+    response = requests.put(api_url, headers=headers)
 
 
 def add_song_to_queue(song):
@@ -87,8 +90,9 @@ def add_song_to_queue(song):
         'Content-Type': 'application/json'
     }
 
-    response = requests.post(api_url, headers=headers)
+    response = requests.put(api_url, headers=headers)
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
+    pause_song()
 #     rospy.init_node("spotify_api")
 #     rospy.Service("add_song_to_queue", String, add_song_to_queue)
