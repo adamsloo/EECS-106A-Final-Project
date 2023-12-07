@@ -211,7 +211,7 @@ def handle_move_cube_request(request):
     return True
 
 def move_cube_now_playing(marker, task='line', rate=200, timeout=None, num_way=50):
-        # Marker should be a single ar marker string
+    # Marker should be a single ar marker string
     tuck()
     # Set up the right gripper
     right_gripper = robot_gripper.Gripper('right_gripper')
@@ -227,14 +227,14 @@ def move_cube_now_playing(marker, task='line', rate=200, timeout=None, num_way=5
     kin = sawyer_kinematics("right")
 
     # Lookup the AR tag position.
-    tag_pos = lookup_tag(marker)
+    tag_pos1, tag_pos2 = lookup_tag(marker, prev_marker)
     
     # This is a wrapper around MoveIt! for you to use.  We use MoveIt! to go to the start position
     # of the trajectory
     planner = PathPlanner('right_arm')
     
     # ####### PICK ########
-    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos, num_way, task, ar_tag=marker)
+    robot_trajectory = get_trajectory(limb, kin, ik_solver, tag_pos1, num_way, task, ar_tag=marker)
     # Move to the trajectory start position
     plan = planner.plan_to_joint_pos(robot_trajectory.joint_trajectory.points[0].positions)
     planner.execute_plan(plan[1])

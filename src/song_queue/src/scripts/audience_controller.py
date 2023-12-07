@@ -36,7 +36,6 @@ class AudienceControllerNode:
         rospy.Subscriber("/ar_pose_marker", AlvarMarkers, self.ar_marker_callback)
 
     def ar_marker_callback(self, data):
-        print(len(self.queue_x))
         if len(data.markers) > 0:
             if self.prev_position is None:
                 marker = data.markers[0]
@@ -95,16 +94,16 @@ class AudienceControllerNode:
         y_condition = max(y_d) - min(y_d) > 0.07
         print(max(x_d) - min(x_d))
         print(max(y_d) - min(y_d))
-        print(x_condition)
-        print(y_condition)
         if x_condition and not y_condition:
             if self.playing == True:
                 self.playing = False
+                print("pausing...")
                 pause_song()
             return "x"
         if y_condition and not x_condition:
             if self.playing == False:
                 self.playing = True
+                print("playing...")
                 play_song()
             return "y"
 
